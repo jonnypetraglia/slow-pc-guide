@@ -1,0 +1,16 @@
+{
+  "title": "Solutions for a slow PC",
+  "authors": [
+    "Jon Petraglia"
+  ],
+  "contents": [
+    "readme.md",
+    "solutions.md",
+    "common_causes.md",
+    "optimizations.md",
+    "software_appendix.md",
+    "sharing.md"
+  ],
+  "rights": "CC BY-NC-SA v4.0",
+  "date": null
+}
