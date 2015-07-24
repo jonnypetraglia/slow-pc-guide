@@ -1,5 +1,7 @@
 # Software Appendix #
 
+![TODO: Descriptions and links](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
+
   - CCleaner
   - RevoUninstaller
   - Memtest86/Memtest86+

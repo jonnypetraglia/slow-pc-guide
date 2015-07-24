@@ -22,7 +22,7 @@ Now Hard Drives are _much_ slower than RAM, but that doesn't matter if its stuff
 
 As with drive space, I should be clear: _"more memory" =/= "faster PC"_, with one caveat. 
 
-[//]: #TODO (disk cache)
+![TODO: disk cache](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
 ## Full Drive ##
 
@@ -74,7 +74,7 @@ For RAM, there is a very well known and well tested program called Memtest86.
 
 Hard Drives are a bit trickier; they have what is known as S.M.A.R.T. (Self-Monitoring, Analysis and Reporting Technology), but it can be difficult to read.
 
-[//]: #TODO (more on HDD failure)
+![TODO: more on HDD failure](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
 ## Running Hot ##
 
@@ -94,14 +94,14 @@ Get ready for a little physics. I'll make it short and easy, I promise.
     What's 
     
 
-[//]: #TODO (more on physics & double check correctness)
+![TODO: more on physics & double check correctness](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
     
 tl;dr: HEAT BAD. FIRE BAD! FIRE BAD!
 
 The solution is called a Heat Sink which is made of metal and directly touches the component (such as the CPU) which allows for a place for the heat to easily move to. Heat Sinks are usually designed to have a large surface area so that it can dissipate as much heat as possible into the air. This system tends to work pretty well, but problems can occur at different parts of the process:
 
-[//]: #TODO (refine heat sink talk)
+![TODO: refine heat sink talk](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
 **Dust**: Dust collecting near the fans or Heat Sinks makes it where heat can't be absorbed as easily by the air. Desktops tend to collect more dust than Laptops since they are stationary and have more areas for dust to collect, but both are susceptible to running hotter by dust
 
@@ -112,7 +112,7 @@ The solution is called a Heat Sink which is made of metal and directly touches t
 ** Poor ventilation**: Ventilation (moving air in and out of the case) directly effects airflow inside the case; if fans can't pull fresh air in or push hot air out, it's going to build up regardless of how well it flows. The first step is ensuring that the intake/outake fans are not blocked. For desktops, the intake tends to be in the front and the exhaust in the back so leave enough space in front of and behind the case and ensure that any air coming out can flow freely away from the case. Laptops vary but often the intake is on the bottom which can be a real problem; hard surfaces are usually ok due to the rubber feet, but soft surfaces like clothes or a bed can completely suffocate the intake.
 
 
-[//]: #TODO (more on poor ventilation)
+![TODO: more on poor ventilation](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
 I should also say that running hot is __never__ good even if it doesn't cause poor performance. For example, in Desktops, the Power Supply Unit also tends to accumulate dust and while it may not slow things down....well, you just don't want the thing that is responsible for maintaining hundreds of volts to get too hot. (Spoilers: Fire. FIRE BAD! FIRE BAD!)
 
@@ -124,4 +124,4 @@ Graphics card errors = reinstall
 
 
 
-[//]: #TODO ("Insufficient Memory" disk cache)
+![TODO: "Insufficient Memory" disk cache](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)

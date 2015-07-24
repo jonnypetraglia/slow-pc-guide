@@ -50,5 +50,5 @@ Below are the different ways you can read/download this guide.
 
   - [on the Web](http://notbryant.github.io/slow-pc-guide)
   - [on GitHub, in MarkDown](https://github.com/notbryant/slow-pc-guide)
-  - [as an EPUB e-book](https://github.com/notbryant/slow-pc-guide/ebook/Solutions%20for%20a%20slow%20PC.epub)
-  - [as a PDF document](https://github.com/notbryant/slow-pc-guide/ebook/Solutions%20for%20a%20slow%20PC.pdf)
+  - [as an EPUB e-book](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.epub)
+  - [as a PDF document](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.pdf)
