@@ -1,5 +1,5 @@
 {
-  "name": "slow_pc",
+  "name": "slow-pc-guide",
   "version": "0.1.0",
   "description": "A guide/reference on how to troubleshoot and (hopefully) solve things that cause a PC to run slow.",
   "main": "book.js",
