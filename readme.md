@@ -44,6 +44,11 @@ All mentioned tools (softwares) will have an entry in the [Software Appendix](#s
 
 THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether as a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs, nor is it guaranteed to address _every_ issue. 
 
-## Easy Reading ##
+## Links and Downloads ##
 
-Lastly, this document is written in MarkDown, which means that if you are reading it as a boring text file, you can paste it into sites like [dillinger.io](http://dillinger.io) or [markable.in](http://markable.in/editor) or any other online [Markdown viewer](http://tmpvar.com/markdown.html) if you want to make it look pretty. This also lets you do things like click an entry in the [Table of Contents](#table-of-contents) to jump to it, which is pretty dang handy.
+Below are the different ways you can read/download this guide.
+
+  - [on the Web](http://notbryant.github.io/slow-pc-guide)
+  - [on GitHub, in MarkDown](https://github.com/notbryant/slow-pc-guide)
+  - [as an EPUB e-book](https://github.com/notbryant/slow-pc-guide/ebook/Solutions for a slow PC.epub)
+  - [as a PDF document](https://github.com/notbryant/slow-pc-guide/ebook/Solutions for a slow PC.pdf)
