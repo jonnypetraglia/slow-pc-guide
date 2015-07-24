@@ -1,7 +1,7 @@
 # Solutions for a Slow PC #
 
     Version: 0.1
-    Date: TBA
+    Date: 2015-07-23
     Author: notbryant <notbryant@gmail.com>
     Contributors: N/A
     Copyright: 2015 Jon Petraglia
