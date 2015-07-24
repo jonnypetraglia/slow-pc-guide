@@ -37,7 +37,7 @@ new Promise(function(resolve, reject) {
       if(/^readme/i.test(filename)) filename = "index.md";
       fs.writeFile(
         path.join(websiteDir, filename.replace(/\.[^\.]+$/, '.html')),
-        wrapHTML(insertTOC(fileContents, mdtoc(fileContents).content, false), filename),
+        wrapHTML(insertTOC(fileContents, false), filename),
         vow(resolve, reject)
       );
     })

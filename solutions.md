@@ -2,7 +2,7 @@
 
 ## Freeing Drive Space ##
 
-Doing this section before [Scanning](#Scanning) is wise because you can remove junk that does not need to be scanned, which will make the scanning process shorter.
+Doing this section before [Scanning](#scanning) is wise because you can remove junk that does not need to be scanned, which will make the scanning process shorter.
 
 ### CCleaner ###
 
