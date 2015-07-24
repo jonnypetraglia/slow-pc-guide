@@ -112,7 +112,7 @@ function wrapHTML(md, filename) {
   var env = {}
   md = markdown.use(require('markdown-it-title')).render(md, env);
   var html = "<!DOCTYPE html>\n<html>\n<head>\n<meta charset='UTF-8'>\n<title>\n"
-            + env.title
+            + env.title + " - " + meta.title
             + "\n</title>\n";
 
   html = html+"<style>\n"

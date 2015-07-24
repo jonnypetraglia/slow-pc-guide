@@ -1,5 +1,5 @@
 {
-  "title": "Solutions for a slow PC",
+  "title": "Solutions for a Slow PC",
   "authors": [
     "Jon Petraglia"
   ],
@@ -11,6 +11,5 @@
     "software_appendix.md",
     "sharing.md"
   ],
-  "rights": "CC BY-NC-SA v4.0",
-  "date": null
+  "rights": "CC BY-NC-SA v4.0"
 }
