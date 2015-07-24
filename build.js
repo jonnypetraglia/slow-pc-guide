@@ -37,7 +37,7 @@ new Promise(function(resolve, reject) {
       if(/^readme/i.test(filename)) filename = "index.md";
       fs.writeFile(
         path.join(websiteDir, filename.replace(/\.[^\.]+$/, '.html')),
-        wrapHTML(insertTOC(fileContents, mdtoc(fileContents).content, false)),
+        wrapHTML(insertTOC(fileContents, mdtoc(fileContents).content, false), filename),
         vow(resolve, reject)
       );
     })
@@ -108,20 +108,43 @@ function insertTOC(md, firsth1) {
   return md.slice(0, ind) + toc + md.slice(ind);
 }
 
-function wrapHTML(md) {
+function wrapHTML(md, filename) {
   var env = {}
   md = markdown.use(require('markdown-it-title')).render(md, env);
-  return "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>"
-    + env.title
-    + "</title>"
-    + "<link rel='stylesheet' href='styles/" + styles['github'] + "'>"
-    + "<style>"
-    + ".markdown-body {min-width: 200px;max-width: 790px;margin: 0 auto;padding: 30px;} "
-    + "#" + mdtoc.slugify(env.title) + " {font-size: 4em} "
-    + "#table-of-contents + ul {list-style: circle;} "
-    + "</style></head><body><article class='markdown-body'>"
-    + md
-    + "</article></body></html>"
+  var html = "<!DOCTYPE html>\n<html>\n<head>\n<meta charset='UTF-8'>\n<title>\n"
+            + env.title
+            + "\n</title>\n";
+
+  html = html+"<style>\n"
+        + "html, body {width:100%;height:100%;margin:0;}\n"
+        + ".markdown-body {min-width: 200px;max-width: 790px;margin: 0 auto;padding: 30px;}\n"
+        + "#" + mdtoc.slugify(env.title) + " {font-size: 4em}\n"
+        + "#table-of-contents + ul {list-style: circle;}\n"
+        + "</style>\n</head>\n<body>"
+  if(filename) {
+    html = html+"<link rel='stylesheet' href='styles/" + styles['github'] + "'>\n"
+          + "<style>\n"
+          + ".site-nav {border-bottom: 1px solid #5A5A5A;line-height: 1.6;font-family: 'Helvetica Neue','Helvetica','Open Sans',sans-serif;font-size: 1.2em;}\n"
+          + ".site-nav ul {padding: 0px 20px;display: flex;justify-content: space-between;list-style: outside none none;max-width: 955px;margin: 0px auto;}\n"
+          + ".site-nav a {color: #6A6A6A;text-decoration:none;font-weight:400;}\n"
+          + ".site-nav a[href='" + filename.replace(/\.[^\.]+$/, '') + ".html']{color:black;}\n"
+          + "@media screen and (max-width: 800px) {.site-nav ul {flex-direction: column;text-align: center;}}\n"
+          + "</style>\n";
+  }
+  if(filename) {
+    html = html+"<nav class='site-nav'>\n<ul>\n";
+    meta.contents.forEach(function(filename) {
+      var title = filename.replace(/\.[^\.]+$/, '').replace('_', ' ');
+      html = html+"<li><a href='"
+            + (/^readme/.test(filename) ? 'index.html' : filename.replace(/\.[^\.]+$/, '.html'))
+            + "'>" + title + "</a></li>\n"
+    })
+    html = html+"</ul>\n</nav>\n";
+  }
+  html = html+"<article class='markdown-body'>\n"
+        + md
+        + "\n</article>\n</body>\n</html>"
+  return html;
 }
 
 function vow(res, rej) {
