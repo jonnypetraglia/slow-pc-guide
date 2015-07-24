@@ -84,7 +84,7 @@ var generate = {
   },
   epub: function(md, filename) {
     return new Promise(function(resolve, reject) {
-      ebrew.generate("book.json", filename, vow(resolve, reject));
+      ebrew.generate("meta.json", filename, vow(resolve, reject));
     })
   }
 }
