@@ -108,7 +108,7 @@ So my recommendation, again, is to only use it to delete personal files. Music f
 
 **How to use**
 
-
+![TODO: using DoubleKiller](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
 
 ## Scanning ##
@@ -346,11 +346,11 @@ Occasionally the graphics driver just gets messed up. This can lead to a bunch o
 As long as you grab the correct driver for your card, you should be completely fine. Though you may have to work at a really low resolution until you get it reinstalled.
 
 **How to use**
-First download the driver.
+First download the driver by the vendor who makes your card.
 
-[AMD](http://support.amd.com/en-us/download)
-[nVidia](http://www.geforce.com/drivers)
-[Intel](https://downloadcenter.intel.com/)
+  - [AMD](http://support.amd.com/en-us/download)
+  - [nVidia](http://www.geforce.com/drivers)
+  - [Intel](https://downloadcenter.intel.com/)
 
 Punch in whatever device you have and it'll download or use an automatic detector if it's offered and you want to.
 
@@ -450,6 +450,8 @@ I've never had a Windows Update help performance, and it often hurts it. Example
 
 
 TODO:
+  - Add cleaning dust
+  - Add boot 2 Linux
   - Add StartupSaver?
   - Add section on building a Thumb Drive
   - SSD TRIM?
