@@ -1,3 +1,11 @@
+/*
+ * This file is used to build the Github Pages site for the guide.
+ * This includes generating the "compiled" versions, such as:
+ *   - epub
+ *   - pdf
+ *   - md (one file)
+ *   - html (one file)
+*/
 var fs = require('fs')
   , path = require('path')
 var mkdirp = require('mkdirp')

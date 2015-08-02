@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# This is a script used for a post-push Git hook to build and deploy the
+# gh-pages branch.
+# I snagged it off fortunejs's repo. Thanks to that!
+#   https://github.com/fortunejs/fortune/blob/master/website/deploy.sh
+
+
 REPO_GIT=git@github.com:notbryant/slow-pc-guide.git
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
