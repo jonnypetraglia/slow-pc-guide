@@ -13,5 +13,11 @@
     "wkhtmltopdf": "^0.1.5"
   },
   "author": "notbryant",
-  "license": "CC BY-NC-SA 4.0"
+  "license": "CC BY-NC-SA 4.0",
+  "optionalDependencies": {
+    "js-beautify": "^1.5.10"
+  },
+  "scripts": {
+    "build": "npm build.js"
+  }
 }
