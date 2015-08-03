@@ -127,6 +127,28 @@ var generate = {
 };
 
 
+// Builds on top of markdown-it-anchor by:
+//   1. Adding a 'title' attribute
+//   2. Making an Anchor yield the heading text when bookmarked
+//      - done by inserting the text into an invisible <span> inside the <a>
+var renderPermalink = function(slug, opts, tokens, idx) {
+  require('markdown-it-anchor').defaults.renderPermalink(slug, opts, tokens, idx);
+  var children = tokens[idx+1].children;
+  var a=0;
+  while(a<children.length && children[a].type!="link_open")
+    a+=1;
+  children[a].attrs.push(['title', 'Permalink']);
+  
+  children[a+1].content = meta.title
+  if(children[0].content.toLowerCase() != meta.title.toLowerCase())
+    children[a+1].content = children[0].content + " - " + children[a+1].content
+  
+  var span = {type: "span_open", tag:"span"}
+  for(var k in children[a+1])
+    if(!span[k]) span[k] = children[a+1][k];
+  children.splice(a+1, 0, span);
+};
+
 
 // Does several things; takes in the markdown and spits out the fully-rendered ToC'ed HTML
 function wrapHTML(md, tocJson, originalFilename) {
@@ -139,8 +161,9 @@ function wrapHTML(md, tocJson, originalFilename) {
 
   // 2. Renders the markdown into HTML (including adjusting permalinks)
   var env = {}
+
   var mdit = markdown_it('commonmark')
-      .use(require('markdown-it-anchor'), {permalink: true})
+      .use(require('markdown-it-anchor'), {permalink: true, permalinkSymbol: '#', renderPermalink: renderPermalink})
       .use(require('markdown-it-title'));
   if(tocJson)
     mdit.use(adjustPermalinks_plugin);
@@ -156,6 +179,8 @@ function wrapHTML(md, tocJson, originalFilename) {
         + "#" + mdtoc.slugify(env.title) + " {font-size: 4em}\n"
         + "#table-of-contents + ul {list-style: circle;}\n"
         + ":target {background: yellow;}\n"
+        + ".header-anchor span {display: none;}\n"
+        + ".header-anchor:before {content: '#';}"
         + "</style>\n";
   if(!originalFilename) {
     // For a 1-page file, insert the CSS file contents
@@ -174,7 +199,7 @@ function wrapHTML(md, tocJson, originalFilename) {
           + "</head>\n<body>\n"
           + "<nav class='site-nav'>\n<ul>\n"
           + meta.contents.map(function(filename) {
-            var title = replaceExt(filename).replace(/_/g, " ").toLowerCase();
+            var title = readme2other(filename, "about").replace(/_/g, " ").toLowerCase();
             return "<li><a href='"
                   + readme2index(filename, ".html")
                   + "'>" + title + "</a></li>\n";
@@ -197,7 +222,7 @@ function adjustPermalinks_plugin(md) {
       var hrefTarget = tokens[idx].attrs[hrefIndex][1].substr(1);
       var filename = TocHash[hrefTarget];
       if(filename)
-        tokens[idx].attrs[hrefIndex][1] = readme2index(filename) + "#" + hrefTarget;
+        tokens[idx].attrs[hrefIndex][1] = readme2index(filename, ".html") + "#" + hrefTarget;
     }
     if (oldLinkOpenOverride)
       return oldLinkOpenOverride.apply(self, arguments);
@@ -210,8 +235,14 @@ function replaceExt(str, ext) {
   return str.replace(/\.[^\.]+$/, ext || '');
 }
 
-function readme2index(filename, ext) {
-  return /^readme/i.test(filename) ? 'index'+ext : replaceExt(filename, ext);
+function readme2index(filename, ext) { return readme2other(filename, "index", ext); }
+function readme2other(filename, other, ext) {
+  return /^readme/i.test(filename) ? other+(ext||"") : replaceExt(filename, ext);
+}
+
+function toTitleCase(str)
+{
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
 function vow(res, rej) {
