@@ -7,7 +7,15 @@
  *   - html (one file)
 */
 var fs = require('fs')
-  , path = require('path')
+  , path = require('path');
+
+// ebrew requires that the markdown files be in the same folder as the JSON file.
+// So let's monkeypatch the call to return the working directory
+var oldDirname = path.dirname;
+path.dirname = function(arg) {
+  return arg==__dirname + "/meta.json" ? process.cwd() : oldDirname(arg);
+};
+
 var mkdirp = require('mkdirp')
   , Promise = (global.Promise || require('promiscuous'))
   , ebrew = require('ebrew')
@@ -21,6 +29,8 @@ try {
   beautify()
 } catch(e) {}
 
+process.chdir(__dirname + "/..")
+
 // Styles available for HTML exporting
 var styles = {
   "github":           "github-markdown-css/github-markdown.css",
@@ -30,10 +40,11 @@ var styles = {
 }, chosenStyle = 'github', chosenStyleContent = null;
 
 
+
 // Meta info about the book
-var meta = require('./meta.json'),
-    websiteDir = path.join(__dirname, "dist"),
-    ebookDir = path.join(__dirname, "dist", "ebook")
+var meta = require(__dirname + "/meta.json"),
+    websiteDir = path.resolve(process.cwd(), "dist"),
+    ebookDir = path.resolve(process.cwd(), "dist", "ebook")
 // Useful vars
 var pagebreak = "\n\n******\n\n";
 var TocHash = {};   // ToC entry is key, value is file it is in (hardware_failure -> solutions.md)
@@ -78,7 +89,7 @@ new Promise(function(resolve, reject) {
         vow(resolve, reject)
       );
     })
-  })).then(function() {
+  })).then(function() { 
     return fileDataArray.map(function(file) {
       return file.md;
     }).join(pagebreak);
@@ -111,6 +122,7 @@ var generate = {
       fs.writeFile(filename, wrapHTML(md), vow(resolve, reject))
     })
   },
+  /*
   pdf: function(md, filename) {
     return new Promise(function(resolve, reject) {
       wkhtmltopdf(wrapHTML(md), { output: filename }, function (code, signal) {
@@ -119,9 +131,11 @@ var generate = {
       });
     });
   },
+  */
   epub: function(md, filename) {
     return new Promise(function(resolve, reject) {
-      ebrew.generate("meta.json", filename, vow(resolve, reject));
+      console.log(process.cwd())
+      ebrew.generate(__dirname + "/meta.json", filename, vow(resolve, reject));
     })
   }
 };
