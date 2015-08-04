@@ -4,6 +4,7 @@
   "description": "A guide/reference on how to troubleshoot and (hopefully) solve things that cause a PC to run slow.",
   "main": "book.js",
   "dependencies": {
+    "imageurl-base64": "^1.0.0",
     "markdown-it": "^4.4.0",
     "markdown-it-anchor": "^2.2.0",
     "markdown-it-title": "^1.0.3",
@@ -19,6 +20,6 @@
   },
   "scripts": {
     "build": "node build/build.js",
-    "clean": "rm dist/*.html; rm dist/ebook/*"
+    "clean": "rm dist/*.* 2> /dev/null; rm dist/ebook/* 2> /dev/null; echo Cleaned dist"
   }
 }

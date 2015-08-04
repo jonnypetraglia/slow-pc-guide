@@ -1,5 +1,7 @@
 # Solutions for a Slow PC #
 
+![Logo](logo.png)
+
     Version: 0.1
     Date: 2015-07-23
     Author: notbryant <notbryant@gmail.com>
