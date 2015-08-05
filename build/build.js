@@ -96,7 +96,7 @@ var buildDir = __dirname,
     ebookDir = path.resolve(websiteDir, "ebook"),
 // Useful vars
     meta = require(__dirname + "/meta.json")
-    pagebreak = "\n\n******\n\n",
+    pagebreak = "\n\n" + Array(20+1).join('*') + "\n" + Array(20+1).join('*') + "\n\n",
     TocHash = {},   // ToC entry is key, value is file it is in (hardware_failure -> solutions.md)
 // Styles available for HTML exporting
   themes = {
@@ -259,6 +259,7 @@ function wrapHTML(md, originalFilename) {
       .use(require('markdown-it-anchor'), {permalink: true, permalinkSymbol: '#', renderPermalink: adjustPermalinks_plugin})
       .use(require('markdown-it-title'))
       .use(adjustImage_plugin, {base64: isAggregateFile})
+      .use(adjustPagebreaks_plugin)
   if(!isAggregateFile)
     mdit.use(adjustLinks_plugin);
   var pagehtml = mdit.render(md, env);
@@ -310,7 +311,15 @@ function wrapHTML(md, originalFilename) {
 //   1. Adding a 'title' attribute
 //   2. Making an Anchor yield the heading text when bookmarked
 //      - done by inserting the text into an invisible <span> inside the <a>
-var adjustPermalinks_plugin = function(slug, opts, tokens, idx) {
+function adjustPermalinks_plugin(slug, opts, tokens, idx) {
+  // Ignore empty headers. And remove its blank id.
+  var id = tokens[idx].attrIndex("id");
+  if(id > -1 && tokens[idx].attrs[id][1].trim()=='') {
+    tokens[idx].attrs.splice(id, 1);
+    return;
+  }
+
+  // Do not permalink the main title of the page; it's at the very top anyway.
   if(!opts.mainTitleHandled) {
     tokens[idx].attrs.push(["class", "page-title"]);
     return opts.mainTitleHandled = true;
@@ -340,6 +349,24 @@ var adjustPermalinks_plugin = function(slug, opts, tokens, idx) {
     children.splice(a+1+index*2, 0, span);
   });
 };
+
+function adjustPagebreaks_plugin(md) {
+  var oldHrOverride = md.renderer.rules.hr;
+  md.renderer.rules.hr = function(tokens, idx, options, env, self) {
+    if(tokens[idx-1].type == "hr" || (idx < tokens.length && tokens[idx+1].type == "hr")) {
+      if(cls = tokens[idx].attrIndex('class') >= 0) {
+        if(token[idx].attr[cls][1].indexOf('pagebreak') < 0)
+          tokens[idx].attr[cls][1] += ' pagebreak';
+      } else {
+        tokens[idx].attrPush(['class', 'pagebreak']);
+      }
+    }
+    if (oldHrOverride)
+      return oldHrOverride.apply(self, arguments);
+    else
+      return self.renderToken.apply(self, arguments);
+  };
+}
 
 // A plugin for markdown-it that adjust permalinks to specify their chapter based on TocHash
 //    Example: '#ccleaner' => 'solutions.html#ccleaner'

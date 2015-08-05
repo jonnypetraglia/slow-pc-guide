@@ -3,6 +3,13 @@ html, body {
   height: 100%;
   margin: auto;
 }
+
+.markdown-body hr.pagebreak + hr.pagebreak {
+  page-break-after: always;
+}
+.markdown-body hr.pagebreak {
+  visibility: hidden;
+}
 .markdown-body {
   min-width: 200px;
   max-width: 790px;
@@ -10,7 +17,7 @@ html, body {
   padding: 30px;
 }
 .page-title  {
-  font-size: 4em !important;
+  font-size: 3.14em !important;
   padding-bottom: 0 !important;
   margin-top: 0 !important;
 }

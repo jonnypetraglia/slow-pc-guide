@@ -11,6 +11,11 @@
 
 ![Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
 
+
+********************
+********************
+
+
 ## Purpose #
 
 This is a guide/reference on how to _troubleshoot and (hopefully) solve things that cause a PC to run slow_. There were several motivations for compiling it.
