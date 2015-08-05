@@ -378,8 +378,9 @@ function adjustLinks_plugin(md) {
     if(hrefIndex >= 0 && tokens[idx].attrs[hrefIndex][1].indexOf("#") == 0) {
       var hrefTarget = tokens[idx].attrs[hrefIndex][1].substr(1);
       var filename = TocHash[hrefTarget];
-      if(filename)
-        tokens[idx].attrs[hrefIndex][1] = readme2index(filename, ".html") + "#" + hrefTarget;
+      if(!filename)
+        throw new Error("Hash used that has no heading:", hrefTarget);
+      tokens[idx].attrs[hrefIndex][1] = readme2index(filename, ".html") + "#" + hrefTarget;
     }
     if (oldLinkOpenOverride)
       return oldLinkOpenOverride.apply(self, arguments);
