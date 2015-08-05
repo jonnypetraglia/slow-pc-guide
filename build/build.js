@@ -7,25 +7,6 @@
  *   - html (one file)
 */
 
-//////////////////// cli-args ////////////////////
-var argv = ['gh_pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
-argv.contains = function(thing) { return this.indexOf(thing) >= 0};
-
-if(process.argv.length > 2) {
-  if(process.argv.indexOf("-h")>=0 || process.argv.indexOf("--help")>=0) {
-    console.log("Usage:",
-                process.argv[0],
-                require('path').basename(process.argv[1]),
-                '[' + argv.join(', ') + ']');
-    process.exit(0);
-  }
-  argv = process.argv.slice(2).map(function (val, index, array) {
-    if(!argv.contains(val))
-      throw(new Error("Invalid argument: " + val));
-    return val;
-  });
-}
-
 //////////////////// Pre-import trickery ////////////////////
 
 var fs = require('fs')
@@ -38,6 +19,25 @@ path.dirname = function(arg) {
   return arg==buildDir + "/meta.json" ? process.cwd() : oldDirname(arg);
 };
 
+//////////////////// Find wkhtmltopdf ////////////////////
+
+var wkhtmltopdf_cmd;
+if(fs.existsSync(path.join(__dirname, "wkhtmltopdf", "bin"))) {
+  var os = require('os');
+  var nixPath = path.join(__dirname, "wkhtmltopdf", "bin");
+  if(os.platform()=="darwin")
+    wkhtmltopdf_cmd = path.join(nixPath, "wkhtmltopdf_darwin_x86");
+  else if(os.platform()=="linux") {
+    if(os.arch()=="ia32")
+      wkhtmltopdf_cmd = path.join(nixPath, "wkhtmltopdf_linux_x86");
+    else if(os.arch()=="x64")
+      wkhtmltopdf_cmd = path.join(nixPath, "wkhtmltopdf_linux_amd64");
+  }
+}
+if(!wkhtmltopdf_cmd) {
+  console.warn("WARNING: No bundled wkhtmltopdf could be found. Your system's version may produce very large PDF files.");
+}
+
 //////////////////// Imports ////////////////////
 
 
@@ -45,7 +45,7 @@ var mkdirp = require('mkdirp')
   , Promise = (global.Promise || require('promiscuous'))
   , ebrew = require('ebrew')
   , markdown_it = require('markdown-it')
-  , wkhtmltopdf = require('wkhtmltopdf')
+  , wkhtmltopdf = require('wkhtmltopdf', {command: wkhtmltopdf_cmd})
   , mdtoc = require('markdown-toc')
   , imageurl_base64 = require('imageurl-base64')
   , request = require('sync-request')
@@ -55,6 +55,35 @@ try {
   beautify = require('js-beautify').html
   beautify()
 } catch(e) {}
+
+
+
+//////////////////// cli-args ////////////////////
+
+var argv = ['gh_pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
+if(process.argv.indexOf("-d") >= 0) {
+  process.argv.splice(process.argv.indexOf("-d"), 1);
+  fs.writeFile = function(filename, contents, callback) {
+    console.log("Faux file~~~~~~~~~~~~~~~~~~~~~~~")
+    callback();
+  };
+}
+
+if(process.argv.length > 2) {
+  if(process.argv.indexOf("-h")>=0 || process.argv.indexOf("--help")>=0) {
+    console.log("Usage:",
+                process.argv[0],
+                require('path').basename(process.argv[1]),
+                '[' + argv.join(', ') + ']');
+    process.exit(0);
+  }
+  argv = process.argv.slice(2).map(function (val, index, array) {
+    if(argv.indexOf(val) == -1)
+      throw(new Error("Invalid argument: " + val));
+    return val;
+  });
+}
+argv.contains = function(thing) { return this.indexOf(thing) >= 0};
 
 //////////////////// Setup the environment ////////////////////
 

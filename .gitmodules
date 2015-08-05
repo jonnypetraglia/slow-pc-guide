@@ -1,0 +1,3 @@
+[submodule "build/wkhtmltopdf"]
+	path = build/wkhtmltopdf
+	url = https://github.com/zakird/wkhtmltopdf_binary_gem
