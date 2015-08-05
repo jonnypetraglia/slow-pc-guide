@@ -20,6 +20,9 @@ html, body {
   display: block;
   margin: auto;
 }
+.markdown-body h1 {
+  font-size: 3em;
+}
 .markdown-body > :first-child {
   margin-bottom: 0 !important;
 }

@@ -31,21 +31,28 @@ If you contribute, I will add your handle to "Contributors" (unless you don't wa
 
 I would request that you _please_ consider contributing or co-authoring before forking (covered below). The point of this guide is to share knowledge. Having multiple versions doesn't ensure that people reading it will get all of it. At the very least, there is no harm in asking/suggesting. If we disagree, then by all means, fork away.
 
+
 ### Guidelines ###
 
 If you decide to contribute, understanding these guidelines will make it easier on everyone.
 
-__Do not speak in first person.__
-No "I", mostly because this guide is/can be written by multiple people. It also wants to try to be objective when possible and making sure it is clear that subjectivity is clearly stated. So "There are cases when" rather than "From my experience".
-
 __Ensure each heading is unique.__
 Each heading receives a permalink that is based on its text (so "CCleaner" becomes "#ccleaner"). Obviously two sections can't share the same permalink so make new ones different. If you truly think that your new section is more logical to have that name than the existing one, the old one can be changed but this should be avoided as it will confuse people who may have boomarked the permalink pointing to the old location.
 
-__Build after your changes before you submit them.__
-Building is very automated as long as you have the right tools involved. Unfortunately instructions on getting those set up is beyond the scope of this guide here, but you basically just have to set up [node.js](https://nodejs.org/) and [wkhtmltopdf](http://wkhtmltopdf.org/) and then just run `npm run build` any time you want to rebuild the files
+__Try to build before submitting major changes.__
+Building is very automated once you get it set up and instructions are provided in the Github repo located under [Links and Downloads](#links-and-downloads). "Major" is considered to mean anything beyond simple modifications. If you're adding a new heading or changing an old one or moving things between files, building may help things go more smoothly. You also get to take a look at the finished product before submitting it to be considered.
 
-__Do not submit changes to the `gh_pages` branch.__
-Let's just make it simple and say that only the person merging the changes will run the official build.
+__Only authors can submit changes to the `gh_pages` branch.__
+Ultimately it's up to the authors on what the website should portray. In the early stages they may have it updated with every commit. Later on they may want to wait for patch bumps, or even major versions. The point is: to make things less confusing, anyone should be able to submit changes to the repo, but only the authors should decide on when those changes go live.
+
+__Do not write in first person.__
+So no "I" or "my", mostly because this guide is/can be written by multiple people. It's also just good writing style if what you are writing is not an opinion piece. So instead of "From my experience" use phrases like "There are cases when".
+
+__Write concisely.__
+This guide is long enough as it is, try to say only how many words need to be said and no more. The goal is to write for people who will not find the content interesting -to be as accessible as possible. If you _do_ want to go off on a tangent, indent it 4 spaces which will turn it into a blockquote; everything in the blockquote should be extra information, i.e. skipping it should not leave the reader confused.
+
+__When writing, have Fun!__
+This guide is meant to be informative, but it's also meant to be easy to read and _fun_ to create. So it will never read like a Wikipedia article nor is it intended to. There can be jokes and internet slang and such.
 
 
 ## Forks ##
@@ -92,3 +99,8 @@ If the guide you are modifying is a modification itself, there will already be a
         
 
 Lastly, remember that the "NoCommercial" clause applies to any derivitive works as well.
+
+
+## Misc Credits ##
+
+Logo Icon is [Speedometer](https://thenounproject.com/term/speedometer/22554/) by Ruud Smit from the Noun Project.

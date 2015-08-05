@@ -24,7 +24,7 @@ This makes a good reference when _your_ PC slows down as well. Am I remembering 
 __Educate the masses.__
 The goal is for people who are "bad with computers" to be able to at least read this and understand it, and for people who are "not tech savvy" to be able to perform most of the steps. In short, this guide should be able to help you solve some problems without having to go to your family tech person or GeekSquid.
 
-__Inform the masses.__
+__Walk in our shoes.__
 One last lofty goal is to give non-tech savvy people a glimpse of just what goes in to maintaining a PC. That it's not "magic" and we that are "good with computers" aren't wizards (as much as we'd like to be), and that being smart with computers does not mean that you have the instant fix to everything. Very often, it's a learning process. In short, the goal is to give people an appreciation for the tech people in their lives who have spent years learning stuff like this. _Thank him/her and buy him/her a beer._
 
 
@@ -44,13 +44,17 @@ All mentioned tools (softwares) will have an entry in the [Software Appendix](#s
 
 ## No Warranty ##
 
-THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether as a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs, nor is it guaranteed to address _every_ issue. 
+THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether they be a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs nor is it guaranteed to address _every_ issue. 
 
 ## Links and Downloads ##
 
-Below are the different ways you can read/download this guide.
+This guide is available __[on the Web](http://notbryant.github.io/slow-pc-guide)__.
 
-  - [on the Web](http://notbryant.github.io/slow-pc-guide)
-  - [on GitHub, in MarkDown](https://github.com/notbryant/slow-pc-guide)
+You can also download it in a variety of other formats:
+
   - [as an EPUB e-book](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.epub)
   - [as a PDF document](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.pdf)
+  - [as a standalone HTML file](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.md)
+  - [as a standalone MarkDown file](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.md)
+
+And lastly, the guide is maintained on [GitHub](https://github.com/notbryant/slow-pc-guide). Check the section [Sharing](#sharing) for things like the license and how to contribute.

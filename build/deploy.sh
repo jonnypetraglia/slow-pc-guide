@@ -7,7 +7,7 @@
 
 
 REPO_GIT=git@github.com:notbryant/slow-pc-guide.git
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
 
 
 # Deploying to GitHub pages.

@@ -7,6 +7,25 @@
  *   - html (one file)
 */
 
+//////////////////// cli-args ////////////////////
+var argv = ['gh_pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
+argv.contains = function(thing) { return this.indexOf(thing) >= 0};
+
+if(process.argv.length > 2) {
+  if(process.argv.indexOf("-h")>=0 || process.argv.indexOf("--help")>=0) {
+    console.log("Usage:",
+                process.argv[0],
+                require('path').basename(process.argv[1]),
+                '[' + argv.join(', ') + ']');
+    process.exit(0);
+  }
+  argv = process.argv.slice(2).map(function (val, index, array) {
+    if(!argv.contains(val))
+      throw(new Error("Invalid argument: " + val));
+    return val;
+  });
+}
+
 //////////////////// Pre-import trickery ////////////////////
 
 var fs = require('fs')
@@ -17,16 +36,6 @@ var fs = require('fs')
 var oldDirname = path.dirname;
 path.dirname = function(arg) {
   return arg==buildDir + "/meta.json" ? process.cwd() : oldDirname(arg);
-};
-
-var oldRequire = require;
-var fakeMarked = function(md) {
-  return markdown_it('commonmark')(md);
-};
-fakeMarked.setOptions = function() {};
-drequire = function(name) {
-  if(name=="marked") return fakeMarked;
-  return oldRequire(name);
 };
 
 //////////////////// Imports ////////////////////
@@ -47,7 +56,6 @@ try {
   beautify()
 } catch(e) {}
 
-
 //////////////////// Setup the environment ////////////////////
 
 
@@ -56,7 +64,7 @@ process.chdir(__dirname + "/..");
 // Paths
 var buildDir = __dirname,
     websiteDir = path.resolve(process.cwd(), "dist"),
-    ebookDir = path.resolve(process.cwd(), "dist", "ebook"),
+    ebookDir = path.resolve(websiteDir, "ebook"),
 // Useful vars
     meta = require(__dirname + "/meta.json")
     pagebreak = "\n\n******\n\n",
@@ -81,10 +89,11 @@ var buildDir = __dirname,
 //////////////////// Start the promise chain ////////////////////
 
 
-// 0. Create output directories, read misc files
+// 0. Make output directories
 new Promise(function(resolve, reject) {
   return mkdirp(ebookDir, vow(resolve, reject));
 })
+// 1. Read file contents
 .then(function() {
   return Promise.all(Object.keys(fileContents).map(function(filename) {
     var isImage = /\.(png|jpg|gif|webp)$/i.test(filename);
@@ -97,7 +106,7 @@ new Promise(function(resolve, reject) {
     });
   }));
 })
-// 1. Read ALL the chapters! Also generate TocHash at the same time
+// 2. Read ALL the chapters! Also generate TocHash at the same time
 .then(function() {
   return Promise.all(meta.contents.map(function(filename) {
     return new Promise(function(resolve, reject) {
@@ -109,25 +118,31 @@ new Promise(function(resolve, reject) {
           if(TocHash[hash]) return reject("#"+hash+" used multiple times");
           TocHash[hash] = filename;
         }
-        resolve({toc: tocData, md: data, filename: filename});
+        resolve(data);
       });
     })
   }))
 })
 // 3. Create the Github Pages versions
-.then(function(fileDataArray) {
-  return Promise.all(fileDataArray.map(function(fileData, index) {
+.then(function(fileContentsArray) {
+  if(argv.indexOf('gh_pages') < 0) return Promise.resolve(fileContentsArray);
+  console.log("Generating gh_pages");
+
+  return Promise.all(fileContentsArray.map(function(fileContents, index) {
     return new Promise(function(resolve, reject) {
-      var filename = readme2index(fileData.filename, ".html");
+      var filename = readme2index(meta.contents[index], ".html");
       fs.writeFile(
         path.join(websiteDir, filename),
-        wrapHTML(fileData.md, fileData.toc, filename),
+        wrapHTML(insertToC(fileContents), filename),
         vow(resolve, reject)
       );
     })
   }))
-  // Copy assets over
+  // 3a. Copy assets over
   .then(function() {
+    if(argv.indexOf('skipassets') >= 0) return Promise.resolve();
+    console.log("Generating assets");
+
     return Promise.all(["logo.png", "favicon.png", "style.css"].map(function(filename) {
       var isImage = /\.(png|jpg|gif|webp)$/i.test(filename);
       return new Promise(function(resolve, reject) {
@@ -141,14 +156,16 @@ new Promise(function(resolve, reject) {
     }));
   })
   .then(function() {
-    return fileDataArray.map(function(file) {
-      return file.md;
-    }).join(pagebreak);
+    return fileContentsArray;
   })
 })
-// 3. Create the markdown and generate each filetype
-.then(function(md) {
+// 4. Generate ebooks
+.then(function(fileContentsArray) {
+  var md = insertToC(fileContentsArray.join(pagebreak));
+
   return Promise.all(Object.keys(generate).map(function(filetype) {
+    if(argv.indexOf(filetype) < 0) return Promise.resolve();
+    console.log("Generating " + filetype);
     return generate[filetype](md, path.join(ebookDir, meta.title+"."+filetype));
   }));
 })
@@ -190,44 +207,52 @@ var generate = {
 
 //////////////////// Auxiliary functions ////////////////////
 
-
-// Does several things; takes in the markdown and spits out the fully-rendered ToC'ed HTML
-function wrapHTML(md, tocJson, originalFilename) {
-  var isAggregateFile = !originalFilename; //Just to be more clear
-
-  // 1. Insert the ToC into the markdown
-  var toc = "## Table of Contents ##\n\n" + (tocJson ? tocJson.content : mdtoc(md).content) + pagebreak;
+function insertToC(md) {
   var delim = "\n##"
   var ind = md.indexOf(delim);
-  if(ind !== 0)
-    md = md.slice(0, ind) + toc + md.slice(ind);
+  if(ind === 0)
+    return md;
 
-  // 2. Renders the markdown into HTML (including adjusting permalinks)
+  var toc = "## Table of Contents ##\n\n" + 
+          //(tocJson ? tocJson.content : mdtoc(md, {firsth1: false}).content) + pagebreak;
+          mdtoc(md, {firsth1: false}).content + pagebreak;
+  return md.slice(0, ind) + toc + md.slice(ind);
+}
+
+
+// Creates a complete HTML file (i.e. with <html>, <body>, styles, etc)
+function wrapHTML(md, originalFilename) {
+  var isAggregateFile = !originalFilename; //Just to be more clear
+
+  // 1. Render the markdown
   var env = {}
-
   var mdit = markdown_it('commonmark')
       .use(require('markdown-it-anchor'), {permalink: true, permalinkSymbol: '#', renderPermalink: adjustPermalinks_plugin})
       .use(require('markdown-it-title'))
       .use(adjustImage_plugin, {base64: isAggregateFile})
-  if(tocJson)
+  if(!isAggregateFile)
     mdit.use(adjustLinks_plugin);
   var pagehtml = mdit.render(md, env);
 
 
+  // 2. adjust options for the template
   var opts = {
-    title:      env.title + " - " + meta.title,
     titleslug:  mdtoc.slugify(env.title),
     pagehref:   readme2index(originalFilename || '', ".html"),
-    pagehtml:   pagehtml
+    pagehtml:   pagehtml,
+    title:      meta.title
   };
   if(isAggregateFile) {
     opts.favicon = fileContents['favicon.png'];
     opts.stylesheets = "<style>"+fileContents.theme+"</style>\n<style>"+fileContents['style.css']+"</style>\n";
+    opts.heading = null;
   } else {
+    if(env.title != meta.title)
+      opts.title = env.title + " - " + meta.title;
     opts.favicon =  "favicon.png"
     opts.stylesheets = "<link rel='stylesheet' href='"+path.join("themes", themes[chosenTheme])+"'>\n" + 
         "<link rel='stylesheet' href='style.css'>\n";
-    opts.sitenav = "\n<nav class='site-nav'>\n" + 
+    opts.heading = "\n<nav class='site-nav'>\n" + 
       "<ul>\n" + 
       "<li>\n<a>\n" + "<img src='" + opts.favicon + "'>\n<strong>"+meta.title+"</strong>\n</a>\n</li>\n" + 
       meta.contents.map(function(filename, i) {
@@ -242,6 +267,7 @@ function wrapHTML(md, tocJson, originalFilename) {
       '<a class="ribbon" href="https://github.com/notbryant/slow-pc-guide"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>'
   }
 
+  // 3. Fill the template
   return beautify(template(fileContents.template, opts));
 }
 
@@ -282,6 +308,7 @@ var adjustPermalinks_plugin = function(slug, opts, tokens, idx) {
 
 // A plugin for markdown-it that adjust permalinks to specify their chapter based on TocHash
 //    Example: '#ccleaner' => 'solutions.html#ccleaner'
+//  (This could possibly be accomplished by https://www.npmjs.com/package/markdown-it-replace-link)
 function adjustLinks_plugin(md) {
   var oldLinkOpenOverride = md.renderer.rules.link_open;
   md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
@@ -299,6 +326,9 @@ function adjustLinks_plugin(md) {
   };
 }
 
+// A plugin for markdown-it that adjust images for two reasons:
+//   1. Adds "logo" class to the logo image
+//   2. Replaces URLs with the base64 of an image
 function adjustImage_plugin(md, opts) {
   var oldLinkOpenOverride = md.renderer.rules.image;
   md.renderer.rules.image = function(tokens, idx, options, env, self) {
@@ -309,6 +339,7 @@ function adjustImage_plugin(md, opts) {
     var uri = tokens[idx].attrs[src][1];
     if(opts.base64) {
       if(!fileContents[uri]) {
+        // TODO: Do local paths also; a simple 'if isLocalPath uri: fs.readFileSync(uri)'
         var res = request("GET", uri);
         if(!/^image\//.test(res.headers['content-type']))
           throw new Error("Wrong content-type, expected an image:" + res.headers['content-type'] + " (" + uri + ")");
@@ -327,7 +358,7 @@ function adjustImage_plugin(md, opts) {
 };
 
 
-// A stupid simple 'template' function
+// A stupid simple 'template' function; uses Mustache-esque double brackets: {{}}
 function template(str, vars) {
   Object.keys(vars).forEach(function(key) {
     str = str.replace(new RegExp("{{"+key+"}}","g"), vars[key] || '');
@@ -357,7 +388,7 @@ function unbase64(data) {
   return data.substr(data.indexOf(";base64,")+";base64,".length);
 }
 
-// A lazy way to deal with callbacks in a promise environment
+// A lazy way to deal with callbacks in a promise-based environment
 function vow(res, rej) {
   return function(err, val) {
     if(err) rej(err);
