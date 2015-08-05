@@ -154,7 +154,7 @@ new Promise(function(resolve, reject) {
 })
 // 3. Create the Github Pages versions
 .then(function(fileContentsArray) {
-  if(argv.indexOf('gh_pages') < 0) return Promise.resolve(fileContentsArray);
+  if(!argv.contains('gh_pages')) return Promise.resolve(fileContentsArray);
   console.log("Generating gh_pages");
 
   return Promise.all(fileContentsArray.map(function(fileContents, index) {
@@ -162,14 +162,14 @@ new Promise(function(resolve, reject) {
       var filename = readme2index(meta.contents[index], ".html");
       fs.writeFile(
         path.join(websiteDir, filename),
-        wrapHTML(insertToC(fileContents), filename),
+        wrapHTML(insertToC(fileContents, false), filename),
         vow(resolve, reject)
       );
     })
   }))
   // 3a. Copy assets over
   .then(function() {
-    if(argv.indexOf('skipassets') >= 0) return Promise.resolve();
+    if(argv.contains('skipassets')) return Promise.resolve();
     console.log("Generating assets");
 
     return Promise.all(["logo.png", "favicon.png", "style.css"].map(function(filename) {
@@ -190,10 +190,10 @@ new Promise(function(resolve, reject) {
 })
 // 4. Generate ebooks
 .then(function(fileContentsArray) {
-  var md = insertToC(fileContentsArray.join(pagebreak));
+  var md = insertToC(fileContentsArray.join(pagebreak), true);
 
   return Promise.all(Object.keys(generate).map(function(filetype) {
-    if(argv.indexOf(filetype) < 0) return Promise.resolve();
+    if(!argv.contains(filetype)) return Promise.resolve();
     console.log("Generating " + filetype);
     return generate[filetype](md, path.join(ebookDir, meta.title+"."+filetype));
   }));
@@ -236,7 +236,7 @@ var generate = {
 
 //////////////////// Auxiliary functions ////////////////////
 
-function insertToC(md) {
+function insertToC(md, firsth1) {
   var delim = "\n##"
   var ind = md.indexOf(delim);
   if(ind === 0)
@@ -244,7 +244,7 @@ function insertToC(md) {
 
   var toc = "## Table of Contents ##\n\n" + 
           //(tocJson ? tocJson.content : mdtoc(md, {firsth1: false}).content) + pagebreak;
-          mdtoc(md, {firsth1: false}).content + pagebreak;
+          mdtoc(md, {firsth1: firsth1}).content + pagebreak;
   return md.slice(0, ind) + toc + md.slice(ind);
 }
 
@@ -361,9 +361,7 @@ function adjustLinks_plugin(md) {
 function adjustImage_plugin(md, opts) {
   var oldLinkOpenOverride = md.renderer.rules.image;
   md.renderer.rules.image = function(tokens, idx, options, env, self) {
-    var src = 0
-    while(src<tokens[idx].attrs.length && tokens[idx].attrs[src][0]!="src")
-      src+=1;
+    var src = tokens[idx].attrIndex("src");
 
     var uri = tokens[idx].attrs[src][1];
     if(opts.base64) {
@@ -423,4 +421,8 @@ function vow(res, rej) {
     if(err) rej(err);
     else res(val);
   }
+}
+
+function debug() {
+  console.log.apply(null,arguments);
 }
