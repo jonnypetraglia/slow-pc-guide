@@ -273,7 +273,13 @@ function wrapHTML(md, originalFilename) {
   };
   if(isAggregateFile) {
     opts.favicon = fileContents['favicon.png'];
-    opts.stylesheets = "<style>"+fileContents.theme+"</style>\n<style>"+fileContents['style.css']+"</style>\n";
+    opts.stylesheets = "<style>\n"+fileContents.theme+"</style>\n<style>\m"+fileContents['style.css']+"</style>\n";
+    opts.stylesheets += "<style>\n" +
+                          "#table-of-contents + ul > li { list-style-type: none; }\n" +
+                          "#table-of-contents + ul > li > a { font-size: 1.5em; }\n" +
+                          //"#table-of-contents + ul > li li > a { font-size: 1em; }\n" +
+                          "#table-of-contents + ul > li li li a { font-size: 0.em; }\n" + 
+                        "</style>\n";
     opts.heading = null;
   } else {
     if(env.title != meta.title)
