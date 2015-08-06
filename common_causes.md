@@ -14,7 +14,7 @@ With those cheesy analogies, hopefully you see why I sometimes refer to them as 
 
 ## Insufficient Memory ##
 
-I already talked about memory in [Resource Usage](#resource-usage), but there _are_ cases when the amount of RAM you have in your machine is simply insufficient for the task at hand.
+I already talked about memory in [Resource Usage](#freeing-resources), but there _are_ cases when the amount of RAM you have in your machine is simply insufficient for the task at hand.
 
 This slows down the computer because Windows uses a tactic called "virtual memory", where it treats a part of the hard drive (called the "pagefile") as if it were memory. The purpose is to move contents of RAM that haven't been used recently into the pagefile so that it can use the real memory space for stuff you _are_ using. (To extend the analogy from before, it's like putting stuff on the desk that you don't currently need on the floor.)
 

@@ -177,7 +177,7 @@ And feel free to let them all run at the same time, even overnight (as long as y
 
 ## Freeing Resources ##
 
-In this guide, "resources" generally means "CPU and RAM". If you are not tech-savvy, there are some wonderfully cheesy analogies for them in the [Common Causes section](#resource-usage).
+In this guide, "resources" generally means "CPU and RAM". If you are not tech-savvy, there are some wonderfully cheesy analogies for them in the [Common Causes section](#high-resource-usage).
 
 ### Bloated Anti-malware ###
 
