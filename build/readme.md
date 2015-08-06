@@ -16,8 +16,8 @@ By default it will build all files. You can also pass arguments to build specifi
   - skipassets = Skip copying static files like images and stylesheets if building gh_pages
   - md = Create the standalone MarkDown file
   - html = Create the standalone HTML file
-  - pdf = Create the 
-  - epub
+  - pdf = Create the PDF document
+  - epub = Create the EPUB ebook
 
 So for example, `npm run build gh_pages html pdf` would generate the Github Pages, the HTML file and the PDF file.
 
@@ -76,12 +76,8 @@ The result is: "#ccleaner" "solutions.html#ccleaner".
 
 ## ebooks ##
 
-Four varieties of ebooks are produced currently: markdown, html, pdf and epub.
+Four varieties of ebooks are produced currently.
 
-  - markdown = all the markdown files concatenated together
-  - html = a 'standalone' aggregate version of gh_pages; assets like images and stylesheets and embedded right into the file
-  - pdf = created by [wkhtmltopdf](http://wkhtmltopdf.org/) which renders using WebKit
-  - epub = created by ebrew, a nodejs package just for that purpose;
 
 **Markdown** is just all the markdown files concatenated together.
 
@@ -101,78 +97,88 @@ I love having just the filenames inside of meta.json instead of having to prepen
 Lastly, ebrew reads the files from disk. That means it is acting on pure Markdown, not formatted HTML.
 
 
-I could gripe more: it inserts a dumb looking front page, it doesn't retrieve images from URLs, and it uses 'marked' which doesn't render as nice as others like remarkable or markdown-it.
+I could gripe more: it inserts a dumb looking front page, it doesn't retrieve images from URLs, and it uses 'marked' to render Markdown instead of  better (IMO) alternatives like remarkable or markdown-it.
+
 
 ****************************************
 
-# markdown-it plugins and why #
+# What each file does #
 
-Here are the plugins written, what they do and why.
+## build.js ##
 
-## Insert Pagebreak ##
+This file is about 1/3 prep, 1/3 helper functions, and 1/3 the actual Promise chain that does the build.
 
-Obviously having the ability to do a manual pagebreak is nice.
+
+## util.js ##
+
+These are just tiny useful functions that make understanding the code easier.
+
+
+## markdown-it_plugins.js ##
+
+Some of these build off of other plugins, others are completely new.
+
+
+### Insert Pagebreak ###
 
 This adds the class "pagebreak" to any set of 2 or more <hr>'s in a row.
 We can then use CSS to mark them as a manual pagebreak and then hide them.
 
 
-## Adjust Image ##
+### Adjust Image ###
 
 First, it adds a class 'logo' to all images that point to 'logo.png'. This helps a ton with CSS formatting.
 
 Secondly, in the case of an ebook, it will convert all images in the document to base64. Images on the web are even fetched.
 
 
-## Adjust Links ##
+### Adjust Links ###
 
 Links to other sections or subsections don't work out of the box if they are cross-page.
 Clicking a link to '#fragmentation' in 'Solutions' will do nothing if that header is inside 'Common Causes'.
-The result is altering it to 'common_causes.html#fragmentation'.
+The end result is 'common_causes.html#fragmentation'.
 
-Basically, when each file is read a Table of Contents is generated and then iterated.
-A hash ('TocHash') is made mapping from the slug to its file (e.g. 'ccleaner' => 'solutions.md') which is populated when each file is read.
-When an anchor is being rendered, it is looked up in the hash and the filename is then used to correct the link.
+As each Markdown file is read, it has its Table of Contents parsed and then each entry is associated with the file it came out of via `TocIndex`.
+When a link is rendered, the filename is retrieved and prepended. It's that simple.
 
 
 ## Adjust Permalinks ##
 
-There's a nice plugin called [markdown-it-anchor](https://github.com/valeriangalliat/markdown-it-anchor). It adds both an id and a permalink anchor to each header. For example:
+There's a nice plugin called [markdown-it-anchor](https://github.com/valeriangalliat/markdown-it-anchor).
+It adds both an id and a permalink anchor to each header. For example:
 
     <h1>I like chocolate</h1>
 
     becomes
 
-    <h1 id="i-like-chocolate">I like chocolate <a href="#i-like-chocolate">#</a></h1>
+    <h1 id="i-like-chocolate">
+      I like chocolate
+      <a href="#i-like-chocolate">
+        #
+      </a>
+    </h1>
 
 The custom plugin takes this principle and tweaks it.
 
 First, it skips the very first heading on the page and instead adds the class "page-title" to it.
+The class makes for easy CSS styling and having a permalink icon at the title at the top of the page looks weird.
 
-Second, adds a 'title' CSS property to let people know that it is a permalink if they hover
+Second, adds a 'title' CSS property to let people know that it is a permalink if they hover over it.
 
-Third, it makes it where bookmarking the link will give it a nice title by adding hidden text inside the link.
-Normally if you right click a permalink and do "Bookmark this link", the title will be simply '#'. This is not ideal.
-The solution is to insert a hidden <span> inside the <a> that contains the text we want the bookmark title to be.
-Like so:
-
+Third, it solves the problem of doing a "Bookmark this link" on a permalink giving a bookmark with the title '#'.
+Instead we want the name of the section (and the site title). The end result would be:
 
 
-  <h1 id="i-like-chocolate">
-    I like chocolate
-    <a href="#i-like-chocolate">
-      #
-      <span style="display:none">
-        I like chocolate - Site title
-      <span>
-    </a>
-  </h1>
+    <h1 id="i-like-chocolate">
+      I like chocolate
+      <a href="#i-like-chocolate">
+        #
+        <span style="display:none">
+          I like chocolate - Site title
+        <span>
+      </a>
+    </h1>
 
 
-It's hidden but the browser still uses it when bookmarking.
-
-The only downside to this is that if CSS is turned off, it becomes ugly and displays as:
-
-  I like chocolate I like chocolate - Site title
-
-So that's something to think about....TODO maybe?
+The only downside to this is that if CSS is disabled, it becomes incredibly ugly.
+Maybe a TODO to fix.

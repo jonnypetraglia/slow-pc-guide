@@ -1,12 +1,3 @@
-/*
- * This file is used to build the Github Pages site for the guide.
- * This includes generating the "compiled" versions, such as:
- *   - epub
- *   - pdf
- *   - md (one file)
- *   - html (one file)
-*/
-
 //////////////////// Pre-import trickery ////////////////////
 
 var fs = require('fs')
@@ -38,35 +29,12 @@ if(!wkhtmltopdf_cmd) {
   console.warn("WARNING: No bundled wkhtmltopdf could be found. Your system's version may produce very large PDF files.");
 }
 
-//////////////////// Imports ////////////////////
-
-
-var mkdirp = require('mkdirp')
-  , Promise = (global.Promise || require('promiscuous'))
-  , ebrew = require('ebrew')
-  , markdown_it = require('markdown-it')
-  , wkhtmltopdf = require('wkhtmltopdf', {command: wkhtmltopdf_cmd})
-  , mdtoc = require('markdown-toc')
-  , imageurl_base64 = require('imageurl-base64')
-  , request = require('sync-request')
-  , beautify = function(x) { return x};
-try {
-  // (Optional) This module will make exported HTML easy on the eyes.
-  beautify = require('js-beautify').html
-  beautify()
-} catch(e) {}
-
-
-
 //////////////////// cli-args ////////////////////
 
 var argv = ['gh_pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
 if(process.argv.indexOf("-d") >= 0) {
   process.argv.splice(process.argv.indexOf("-d"), 1);
-  fs.writeFile = function(filename, contents, callback) {
-    console.log("Faux file~~~~~~~~~~~~~~~~~~~~~~~")
-    callback();
-  };
+  fs.writeFile = function(f, d, callback) { callback(); };
 }
 
 if(process.argv.length > 2) {
@@ -85,6 +53,31 @@ if(process.argv.length > 2) {
 }
 argv.contains = function(thing) { return this.indexOf(thing) >= 0};
 
+
+//////////////////// Imports ////////////////////
+
+// Project files
+for(var v in require(__dirname + "/util.js"))
+  global[v] = require(__dirname + "/util.js")[v];
+
+var mdit_plugins = require(__dirname + '/markdown-it_plugins.js'),
+    slugify = mdit_plugins.anchor.defaults.slugify;
+
+// npm packages
+var mkdirp = require('mkdirp')
+  , Promise = (global.Promise || require('promiscuous'))
+  , ebrew = require('ebrew')
+  , markdown_it = require('markdown-it')
+  , wkhtmltopdf = require('wkhtmltopdf', {command: wkhtmltopdf_cmd})
+  , mdtoc = function(md) { return require('markdown-toc')(md, {slugify: slugify}) }
+  , beautify = function(x) { return x};
+try {
+  // (Optional) This module will make exported HTML easy on the eyes.
+  beautify = require('js-beautify').html
+  beautify()
+} catch(e) {}
+
+
 //////////////////// Setup the environment ////////////////////
 
 
@@ -97,7 +90,7 @@ var buildDir = __dirname,
 // Useful vars
     meta = require(__dirname + "/meta.json")
     pagebreak = "\n\n" + Array(20+1).join('*') + "\n" + Array(20+1).join('*') + "\n\n",
-    TocHash = {},   // ToC entry is key, value is file it is in (hardware_failure -> solutions.md)
+    tocIndex = TocIndex({specialSlugs: ['table-of-contents']})
 // Styles available for HTML exporting
   themes = {
   "github":           "github-markdown-css/github-markdown.css",
@@ -115,7 +108,9 @@ var buildDir = __dirname,
 }; // images [png,jpg,gif,webp] are stored as browser-ready base64, everything else is text
 
 
+/////////////////////////////////////////////////////////////////
 //////////////////// Start the promise chain ////////////////////
+/////////////////////////////////////////////////////////////////
 
 
 // 0. Make output directories
@@ -135,18 +130,15 @@ new Promise(function(resolve, reject) {
     });
   }));
 })
-// 2. Read ALL the chapters! Also generate TocHash at the same time
+// 2. Read ALL the chapters! Also generate TocIndex at the same time
 .then(function() {
   return Promise.all(meta.contents.map(function(filename) {
     return new Promise(function(resolve, reject) {
       fs.readFile(filename, {encoding: 'utf8'}, function(err, data) {
         if(err) return reject(err);
-        var tocData = mdtoc(data);
-        for(var x in tocData.json) {
-          var hash = mdtoc.slugify(tocData.json[x].content);
-          if(TocHash[hash]) return reject("#"+hash+" used multiple times");
-          TocHash[hash] = filename;
-        }
+        mdtoc(data).json.forEach(function(tocEntry) {
+          tocIndex.put(slugify(tocEntry.content), readme2index(filename, ".html"))
+        });
         resolve(data);
       });
     })
@@ -255,19 +247,13 @@ function wrapHTML(md, originalFilename) {
 
   // 1. Render the markdown
   var env = {}
-  var mdit = markdown_it('commonmark')
-      .use(require('markdown-it-anchor'), {permalink: true, permalinkSymbol: '#', renderPermalink: adjustPermalinks_plugin})
-      .use(require('markdown-it-title'))
-      .use(adjustImage_plugin, {base64: isAggregateFile})
-      .use(adjustPagebreaks_plugin)
-  if(!isAggregateFile)
-    mdit.use(adjustLinks_plugin);
+  var mdit = mdit_plugins(markdown_it('commonmark'), isAggregateFile);
   var pagehtml = mdit.render(md, env);
 
 
   // 2. adjust options for the template
   var opts = {
-    titleslug:  mdtoc.slugify(env.title),
+    titleslug:  slugify(env.title),
     pagehref:   readme2index(originalFilename || '', ".html"),
     pagehtml:   pagehtml,
     title:      meta.title
@@ -305,158 +291,4 @@ function wrapHTML(md, originalFilename) {
 
   // 3. Fill the template
   return beautify(template(fileContents.template, opts));
-}
-
-// Builds on top of markdown-it-anchor by:
-//   1. Adding a 'title' attribute
-//   2. Making an Anchor yield the heading text when bookmarked
-//      - done by inserting the text into an invisible <span> inside the <a>
-function adjustPermalinks_plugin(slug, opts, tokens, idx) {
-  // Ignore empty headers. And remove its blank id.
-  var id = tokens[idx].attrIndex("id");
-  if(id > -1 && tokens[idx].attrs[id][1].trim()=='') {
-    tokens[idx].attrs.splice(id, 1);
-    return;
-  }
-
-  // Do not permalink the main title of the page; it's at the very top anyway.
-  if(!opts.mainTitleHandled) {
-    tokens[idx].attrs.push(["class", "page-title"]);
-    return opts.mainTitleHandled = true;
-  }
-  require('markdown-it-anchor').defaults.renderPermalink(slug, opts, tokens, idx);
-
-  // Find the <a>
-  var children = tokens[idx+1].children;
-  var a=0;
-  while(a<children.length && children[a].type!="link_open")
-    a+=1;
-
-  // Add 'title'
-  children[a].attrs.push(['title', 'Permalink']);
-  
-  // Alter the text of the <a>
-  children[a+1].content = meta.title
-  if(children[0].content.toLowerCase() != meta.title.toLowerCase())
-    children[a+1].content = children[0].content + " - " + children[a+1].content
-  
-  // Wrap the text in a span
-  var tags = ["span_open", "span_close"];
-  tags.forEach(function(type, index) {
-    var span = {type: "span_open", tag:"span"}
-    for(var k in children[a+1])
-      if(!span[k]) span[k] = children[a+1][k];
-    children.splice(a+1+index*2, 0, span);
-  });
-};
-
-function adjustPagebreaks_plugin(md) {
-  var oldHrOverride = md.renderer.rules.hr;
-  md.renderer.rules.hr = function(tokens, idx, options, env, self) {
-    if(tokens[idx-1].type == "hr" || (idx < tokens.length && tokens[idx+1].type == "hr")) {
-      if(cls = tokens[idx].attrIndex('class') >= 0) {
-        if(token[idx].attr[cls][1].indexOf('pagebreak') < 0)
-          tokens[idx].attr[cls][1] += ' pagebreak';
-      } else {
-        tokens[idx].attrPush(['class', 'pagebreak']);
-      }
-    }
-    if (oldHrOverride)
-      return oldHrOverride.apply(self, arguments);
-    else
-      return self.renderToken.apply(self, arguments);
-  };
-}
-
-// A plugin for markdown-it that adjust permalinks to specify their chapter based on TocHash
-//    Example: '#ccleaner' => 'solutions.html#ccleaner'
-//  (This could possibly be accomplished by https://www.npmjs.com/package/markdown-it-replace-link)
-function adjustLinks_plugin(md) {
-  var oldLinkOpenOverride = md.renderer.rules.link_open;
-  md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
-    var hrefIndex = tokens[idx].attrIndex('href');
-    if(hrefIndex >= 0 && tokens[idx].attrs[hrefIndex][1].indexOf("#") == 0) {
-      var hrefTarget = tokens[idx].attrs[hrefIndex][1].substr(1);
-      var filename = TocHash[hrefTarget];
-      if(!filename)
-        throw new Error("Hash used that has no heading:", hrefTarget);
-      tokens[idx].attrs[hrefIndex][1] = readme2index(filename, ".html") + "#" + hrefTarget;
-    }
-    if (oldLinkOpenOverride)
-      return oldLinkOpenOverride.apply(self, arguments);
-    else
-      return self.renderToken.apply(self, arguments);
-  };
-}
-
-// A plugin for markdown-it that adjust images for two reasons:
-//   1. Adds "logo" class to the logo image
-//   2. Replaces URLs with the base64 of an image
-function adjustImage_plugin(md, opts) {
-  var oldLinkOpenOverride = md.renderer.rules.image;
-  md.renderer.rules.image = function(tokens, idx, options, env, self) {
-    var src = tokens[idx].attrIndex("src");
-
-    var uri = tokens[idx].attrs[src][1];
-    if(opts.base64) {
-      if(!fileContents[uri]) {
-        // TODO: Do local paths also; a simple 'if isLocalPath uri: fs.readFileSync(uri)'
-        var res = request("GET", uri);
-        if(!/^image\//.test(res.headers['content-type']))
-          throw new Error("Wrong content-type, expected an image:" + res.headers['content-type'] + " (" + uri + ")");
-        fileContents[uri] = base64img(res.getBody(), res.headers['content-type']);
-      }
-      tokens[idx].attrs[src][1] = fileContents[uri]
-    }
-    if(uri=="logo.png")
-      tokens[idx].attrs.push(["class", "logo"]);
-
-    if(oldLinkOpenOverride)
-      return oldLinkOpenOverride.apply(self, arguments);
-    else
-      return self.renderToken.apply(self, arguments);
-  };
-};
-
-
-// A stupid simple 'template' function; uses Mustache-esque double brackets: {{}}
-function template(str, vars) {
-  Object.keys(vars).forEach(function(key) {
-    str = str.replace(new RegExp("{{"+key+"}}","g"), vars[key] || '');
-  });
-  return str;
-};
-
-// Replaces a file extension with whatever is specified (note: must include the dot)
-function replaceExt(str, ext) {
-  return str.replace(/\.[^\.]+$/, ext || '');
-}
-
-// Converts 'readme.ext' to 'index.ext' (or some 'other' string)
-function readme2index(filename, ext) { return readme2other(filename, "index", ext); }
-function readme2other(filename, other, ext) {
-  return /^readme/i.test(filename) ? other+(ext||"") : replaceExt(filename, ext);
-}
-
-function toTitleCase(str) {
-  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-}
-
-function base64img(data, contentType) {
-  return "data:" + (contentType||"image/png") + ";base64," + new Buffer(data).toString('base64')
-}
-function unbase64(data) {
-  return data.substr(data.indexOf(";base64,")+";base64,".length);
-}
-
-// A lazy way to deal with callbacks in a promise-based environment
-function vow(res, rej) {
-  return function(err, val) {
-    if(err) rej(err);
-    else res(val);
-  }
-}
-
-function debug() {
-  console.log.apply(null,arguments);
 }
