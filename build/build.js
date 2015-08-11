@@ -115,6 +115,8 @@ new Promise(function(resolve, reject) {
   fs.readFile(buildConfig.meta_file, "utf-8", vow(resolve, reject));
 }).then(function(fileData) {
   var fm = frontmatter(fileData).attributes;
+  if(Object.keys(fm).length===0)
+    throw new Error("No meta info found")
   Object.keys(fm).forEach(function(key) {
     meta[key.toLowerCase()] = fm[key];
   });
@@ -139,7 +141,6 @@ new Promise(function(resolve, reject) {
     return new Promise(function(resolve, reject) {
       fs.readFile(filename, {encoding: 'utf8'}, function(err, data) {
         if(err) return reject(err);
-        data = frontmatter(data).body;
         mdtoc(data).json.forEach(function(tocEntry) {
           tocIndex.put(slugify(tocEntry.content), readme2index(filename, ".html"))
         });

@@ -1,3 +1,8 @@
+# Solutions for a Slow PC #
+
+![Logo](logo.png)
+
+```
 ---
 Title: Solutions for a Slow PC
 Version: 0.1
@@ -8,11 +13,7 @@ Contributors:
 License: CC BY-NC-SA v4.0
 Copyright: 2015 Jon Petraglia
 ---
-
-# Solutions for a Slow PC #
-
-![Logo](logo.png)
-
+```
 
 ![CC BY-NC-SA 4.0](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
 
