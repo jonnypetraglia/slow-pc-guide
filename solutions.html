@@ -1,371 +1,408 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset='UTF-8'>
-<title>
-Solutions - Solutions for a Slow PC
-</title>
-<style>
-html, body {width:100%;height:100%;margin:0;}
-.markdown-body {min-width: 200px;max-width: 790px;margin: 0 auto;padding: 30px;}
-#solutions {font-size: 4em}
-#table-of-contents + ul {list-style: circle;}
-</style>
-</head>
-<body><link rel='stylesheet' href='styles/github-markdown-css/github-markdown.css'>
-<style>
-.site-nav {border-bottom: 1px solid #5A5A5A;line-height: 1.6;font-family: 'Helvetica Neue','Helvetica','Open Sans',sans-serif;font-size: 1.2em;}
-.site-nav ul {padding: 0px 20px;display: flex;justify-content: space-between;list-style: outside none none;max-width: 955px;margin: 0px auto;}
-.site-nav a {color: #6A6A6A;text-decoration:none;font-weight:400;}
-.site-nav a[href='solutions.html']{color:black;}
-@media screen and (max-width: 800px) {.site-nav ul {flex-direction: column;text-align: center;}}
-</style>
-<nav class='site-nav'>
-<ul>
-<li><a href='index.html'>readme</a></li>
-<li><a href='solutions.html'>solutions</a></li>
-<li><a href='common_causes.html'>common causes</a></li>
-<li><a href='optimizations.html'>optimizations</a></li>
-<li><a href='software_appendix.html'>software appendix</a></li>
-<li><a href='sharing.html'>sharing</a></li>
-</ul>
-</nav>
-<article class='markdown-body'>
-<h1 id="solutions">Solutions <a class="header-anchor" href="#solutions" aria-hidden="true">¶</a></h1>
-<h2 id="table-of-contents">Table of Contents <a class="header-anchor" href="#table-of-contents" aria-hidden="true">¶</a></h2>
-<ul>
-<li><a href="#freeing-drive-space">Freeing Drive Space</a>
-<ul>
-<li><a href="#ccleaner">CCleaner</a></li>
-<li><a href="#uninstall">Uninstall</a></li>
-<li><a href="#windirstat">WinDirStat</a></li>
-<li><a href="#doublekiller">DoubleKiller</a></li>
-</ul>
-</li>
-<li><a href="#scanning">Scanning</a>
-<ul>
-<li><a href="#defragment">Defragment</a></li>
-<li><a href="#anti-malware">Anti-malware</a></li>
-</ul>
-</li>
-<li><a href="#freeing-resources">Freeing Resources</a>
-<ul>
-<li><a href="#bloated-anti-malware">Bloated Anti-malware</a></li>
-<li><a href="#autoruns">Autoruns</a></li>
-<li><a href="#process-count">Process Count</a></li>
-</ul>
-</li>
-<li><a href="#os-checks">OS Checks</a>
-<ul>
-<li><a href="#chkdsk">chkdsk</a></li>
-<li><a href="#sfc">sfc</a></li>
-<li><a href="#graphics-driver">Graphics Driver</a></li>
-</ul>
-</li>
-<li><a href="#hardware-checks">Hardware Checks</a>
-<ul>
-<li><a href="#memory">Memory</a></li>
-<li><a href="#smart-and-hdd-test">SMART and HDD test</a></li>
-</ul>
-</li>
-<li><a href="#advanced-malware">Advanced Malware</a>
-<ul>
-<li><a href="#windows-updates">Windows Updates</a></li>
-</ul>
-</li>
-</ul>
-<hr />
-<h2 id="freeing-drive-space">Freeing Drive Space <a class="header-anchor" href="#freeing-drive-space" aria-hidden="true">¶</a></h2>
-<p>Doing this section before <a href="#scanning">Scanning</a> is wise because you can remove junk that does not need to be scanned, which will make the scanning process shorter.</p>
-<h3 id="ccleaner">CCleaner <a class="header-anchor" href="#ccleaner" aria-hidden="true">¶</a></h3>
-<p>Tools: CCleaner</p>
-<p><strong>Difficulty: EASY</strong></p>
-<p>CCleaner is useful for two things:</p>
-<ul>
-<li>Cleaning junk files, like temporary files and caches</li>
-<li>Cleaning unnecessary registry files.</li>
-</ul>
-<p><strong>Why is it needed</strong></p>
-<p>This is mostly to clean unnecessary disk usage; it doesn't necessarily yield a noticable performance increase in and of itself, it's more just something you should do occasionally (like 1x a month) for maintenance.</p>
-<p><strong>Warnings</strong></p>
-<p>Some people say to never use a registry cleaner, that it is does not yield any performance benefits and can cause problems. All that can be offered in retort is anecdotal evidence of many people <em>never</em> encountering a single issue as a result of CCleaner's registry cleaner.</p>
-<p>If you <em>are</em> worred about encountering problems, just backup the registry when prompted.</p>
-<p><strong>How to use</strong></p>
-<p>Often clearing the registry will reveal more files that can be removed, and vice versa. So a good strategy is to do the following:</p>
-<p>(a) run the registry cleaner
-(b) run the disk cleaner
-(c) repeat until the neither show any results</p>
-<h3 id="uninstall">Uninstall <a class="header-anchor" href="#uninstall" aria-hidden="true">¶</a></h3>
-<p>Tools: One or more of RevoUninstaller, CCleaner, and builtin &quot;Add/Remove Programs&quot;</p>
-<p><strong>Difficulty: MEDIUM</strong></p>
-<p>Uninstalling unused programs is just good practice, <em>especially</em> for stuff that came bundled with your PC that you never use.</p>
-<p>RevoUninstaller has a the awesome functionality of searching around for stuff that the regular uninstaller missed, which makes it the most thorough.</p>
-<p>CCleaner also lists programs to uninstall under &quot;Tools&quot;, and the built-in uninstaller is also adequate.</p>
-<p>You can get by using only one, but for complete thoroughness, use all 3 because some show entries that others miss. I don't know why.</p>
-<p><strong>Why is it needed</strong></p>
-<p>This yields two benefits:</p>
-<ul>
-<li>frees disk space</li>
-<li>removes unused programs that may doing things in the background</li>
-</ul>
-<p><strong>Warnings</strong></p>
-<p>You need to know what you are uninstalling before you uninstall it. Most of the time this isn't dangerous to your system, but you can sometimes break the programs that you use by uninstalling something that it depends on. <em>Most</em> things are easily identifiable; when they are not, use Google. If you are ever unsure, hold off, but make note of what you may want to uninstall later on.</p>
-<p><strong>How to use</strong></p>
-<p>RevoUninstaller lets you specify different levels of thoroughness; &quot;Medium&quot; is usually fine. Otherwise, you just uninstall stuff one at a time.</p>
-<p>Also, if you uninstall a few things, running <a href="#ccleaner">CCleaner</a> again might be a wise idea, to pick up any files they left behind. (Even RevoUninstaller misses some occasionally.)</p>
-<h3 id="windirstat">WinDirStat <a class="header-anchor" href="#windirstat" aria-hidden="true">¶</a></h3>
-<p>Tools: WinDirStat</p>
-<p><strong>Difficulty: MEDIUM-HARD</strong></p>
-<p>If your disk is full,  WinDirStat is a nice program that shows you, visually, what is taking up space on your drive. It shows files as pretty boxes and sorts by folders. It's great.</p>
-<p><strong>Why is it needed</strong></p>
-<p>This is mostly for <em>analysis</em> rather than direct problem solving. Its main purpose is to give you insight, because often seeing what takes up a lot of space can hint at what might be using other resources as well. But the main benefit is when your disk is full, or at least fuller than you'd like it to be.</p>
-<p>Granted, it does take a bit of familiarity with computers to understand just what you're looking at. Like for example: two common big files (&quot;pagefile.sys&quot; and &quot;hiberfil.sys&quot;) are system files that you can't exactly just delete.</p>
-<p><strong>Warnings</strong></p>
-<p>Deleting files from WinDirStat can be somewhat dangerous. If they are personal files that you immediately recognize like downloads or music or movies, that's ok. But for files that are related to programs or to Windows itself, deleting files wantonly is <em>very</em> unwise unless you <em>really</em> know what you are doing. For example: space wasters inside &quot;C:\Program Files&quot; should be <a href="#uninstall">uninstalled</a> rather than just deleted (though sometimes they shouldn't be uninstalled either).</p>
-<p>Best rule of thumb is: <strong>Always know what you are deleting before you delete it</strong>.</p>
-<p><strong>How to use</strong></p>
-<p>After selecting the C: drive, you will have to wait for the little Pacman-esque characters to finish. Then you can click pretty boxes to identify what file it is, or select files in the list to see what boxes they are. Isn't it pretty?</p>
-<h3 id="doublekiller">DoubleKiller <a class="header-anchor" href="#doublekiller" aria-hidden="true">¶</a></h3>
-<p>Tools: DoubleKiller</p>
-<p><strong>Difficulty: MEDIUM</strong></p>
-<p><em>Sometimes</em> space is wasted because there are duplicate files laying around. DoubleKiller provides a very easy way to find, identify, and delete duplicate files. This is really only for a very specific case, but it is worth mentioning.</p>
-<p><strong>Why is it needed</strong></p>
-<p>Duplicate files on a PC are not always a bad thing. Duplicate <em>personal</em> files are simply wasted space, as well as clutter.</p>
-<p><strong>Warnings</strong></p>
-<p>One should be wary to only delete extra files that you are sure are not needed. For example, Windows likes to keep backups of core system files, meaning they will be in two or more places. Deleting either the originals or the backups can cause problems.</p>
-<p>So my recommendation, again, is to only use it to delete personal files. Music files, pictures, videos, documents, etc.</p>
-<p><strong>How to use</strong></p>
-<h2 id="scanning">Scanning <a class="header-anchor" href="#scanning" aria-hidden="true">¶</a></h2>
-<p>This section contains things that take a <em>long</em> time, so everything in this section can be done <strong>simultaneously</strong>. Basically, watch a movie. I recommend <em>The Matrix</em>. That film is classic.</p>
-<h3 id="defragment">Defragment <a class="header-anchor" href="#defragment" aria-hidden="true">¶</a></h3>
-<p>Tools: Defraggler, Auslogics Disk Defrag, or builtin &quot;Disk Defragmenter&quot;</p>
-<p><strong>Difficulty: EASY</strong></p>
-<p><strong>Why is it needed</strong></p>
-<p>What &quot;fragmentation&quot; is and why it's bad is explained in the <a href="#fragmented-hard-drive">Common Causes section</a>.</p>
-<p><strong>Warnings</strong></p>
-<p>Many people online say that you do not need to defragment Windows 7 and 8 because it does it for you. The &quot;warning&quot;, then, would be that defragmenting on 7 or 8 works your hard drive needlessly which might shorten its life a little.</p>
-<p>This, to me, seems like a misnomer. Windows 7 and Windows 8 <em>schedule</em> defragmentation automatically, but they are not immune to it in the same way that, say, Linux is. And more importantly, they schedule it for a <em>specific time each week</em>, usually in the middle of the night. That means that if your computer shuts down every night or goes to sleep (like a laptop), it won't defragment automatically. You can set your own schedule if you are sure that your PC will be on and awake when the scan is supposed to start and <em>stay</em> on for the duration of the scan.</p>
-<p>But it never hurts to check. So my logic is: analyze the disk first with a 3rd party defragmenter. If it says it is fragmented, defragment it.</p>
-<p><strong>How to use</strong></p>
-<p>While defragmenting, you can continue to use your computer as normal, and if the process is interrupted, you can just start it again and it will basically pick up where it left off.</p>
-<h3 id="anti-malware">Anti-malware <a class="header-anchor" href="#anti-malware" aria-hidden="true">¶</a></h3>
-<p>Tools recommended for long-term install:</p>
-<ul>
-<li>ESET nod32 ($$$)</li>
-<li>Malwarebytes Anti-Malware (MBAM)</li>
-<li>Avast</li>
-<li>Bit Defender</li>
-</ul>
-<p>Tools recommended just for repair-time scanning:</p>
-<ul>
-<li>Spybot (for Spyware)</li>
-<li>Super Antispyware (for Spyware)</li>
-<li>whatever is already installed</li>
-</ul>
-<p><strong>Difficulty: EASY</strong></p>
-<p>The reasoning behind why malware can slow down your PC is covered in the <a href="#malware">Common Causes section</a>.</p>
-<p><strong>Why is it needed</strong></p>
-<p>It's generally better to scan for malware early on in the repair process, i.e. don't save it toward the end. If the system does have Malware, it's best to get rid of it ASAP so it doesn't have time to do naughty things while you are doing anything else.</p>
-<p>The reason it is placed <em>after</em> clearing disk space in this guide is that getting rid of junk data means that's less data then the scanner has to scan, and if you are running multiple scanners, that can reduce the time significantly.</p>
-<p><strong>Warnings</strong></p>
-<p>The only real danger is to make <em>sure</em> that the scanner you are using is legit and is not itself a malware! Posing as a virus scanner is a very common tactic for malware to gain access to your system. So, just <em>google</em> any anti-malware software that you are unsure of.</p>
-<p>The only other warning is: make sure only have one anti-malware software installed when you are done with the machine. You can install any scanners you want while in the repairing process, but when you are finished, make sure at most 1 remains. And check the section on <a href="#bloated-anti-malware">removing anti-malware software</a> to make sure that you do it properly.</p>
-<p><strong>How to use</strong></p>
-<p>Go ahead and feel free to use whatever is installed, including the &quot;bloaty&quot; ones (McAfee, Symantic, Norton, etc).</p>
-<p>Also make sure that you scan with at least one of the &quot;good&quot; anti-malware softwares listed at the beginning of this section.</p>
-<p>And feel free to let them all run at the same time, even overnight (as long as you set the power preferences to not fall asleep when idle).</p>
-<h2 id="freeing-resources">Freeing Resources <a class="header-anchor" href="#freeing-resources" aria-hidden="true">¶</a></h2>
-<p>In this guide, &quot;resources&quot; generally means &quot;CPU and RAM&quot;. If you are not tech-savvy, there are some wonderfully cheesy analogies for them in the <a href="#resource-usage">Common Causes section</a>.</p>
-<h3 id="bloated-anti-malware">Bloated Anti-malware <a class="header-anchor" href="#bloated-anti-malware" aria-hidden="true">¶</a></h3>
-<p>Tools: ESET AV Remover or vendor-specific removal tool(s)</p>
-<p><strong>Difficulty: EASY</strong></p>
-<p>Many of the big-name anti-malware programs are what is called &quot;bloated&quot; or &quot;bloatware&quot;, meaning that they use too much of a system's resources for what they are intended to do. So while malware programs can drain a system's resources, anti-malware can be just as bad in terms of performance.</p>
-<p><strong>Why is it needed</strong></p>
-<p>Even though the intention might be good, if an anti-malware software slows the system down to an unusable point, it is doing more help than harm; what's the point of a secure PC if you can't use it?</p>
-<p>What's important to realize is that <em>simply uninstalling is not enough</em>. Each big-name anti-malware vendor has their own &quot;removal tool&quot;, because even <em>they</em> realize that their product is just dang difficult to get rid of.</p>
-<p><strong>Warnings</strong></p>
-<p>If you are working on someone else's computer, consider it best practice to ask before removing any <em>paid</em> installed anti-malware programs. Often users use these bloaty ones because they come pre-installed when they buy the PC, but still, there's a chance that they actually want it. Even if you think that they are better off getting rid of the bloatware and replacing it with a better (often free) alternative, it's not your choice to make.</p>
-<p><strong>How to use</strong></p>
-<p>Always start with a normal uninstall. See the <a href="#uninstall">Uninstall</a> section for tips on how. Then, after it finishes (you don't have to reboot after....unless you really want to), run a removal tool.</p>
-<p>Thankfully, ESET actually removal tool that removes old anti-malware softwares! It's called <a href="http://help.eset.com/ees/6/en-US/?av_remover.htm">ESET AV Remover</a></p>
-<p>Or, if you'd prefer to use the vendor's own removal tool, ESET also has a <a href="http://kb.eset.com/esetkb/index?page=content&amp;id=SOLN146">huge list</a> that makes tracking down the one(s) you need easy.</p>
-<h3 id="autoruns">Autoruns <a class="header-anchor" href="#autoruns" aria-hidden="true">¶</a></h3>
-<p>Tools: Autoruns</p>
-<p><strong>Difficulty: HARD</strong></p>
-<p>Autoruns is a powertool made by Sysinternals, a resource offered by Microsoft (wow, MS actually makes good things every now and then...) that helps you manage things like startup entries, browser helper objects, services, etc. Basically it's a tool for power users.</p>
-<p><strong>Why is it needed</strong></p>
-<p>This is actually <em>the biggest</em> culprit to slow PCs: too many programs run on startup. Not only does this take longer for your computer to boot up, it also (more importantly) means that more processes will be running after the computer has finished booting.</p>
-<p>For those reasons, you generally only want to start things on boot that you will <em>absolutely</em> need. Software vendors don't seem to think that way. They tend to think:</p>
-<pre><code>&quot;My tool X is pretty handy to the user, it should be running all the time in case the user needs it. It doesn't use too many resources, the user won't even notice it.&quot;
-</code></pre>
-<p>They don't take into consideration that <em>every other</em> software vendor thinks the same thing and the result is that you have two dozen tools that you rarely use running all the time, consuming precious resources.</p>
-<p>Additionally, Autoruns lets you tweak a <em>plethora</em> of other options that this guide can't even begin to cover. There are even some that I just don't mess with.</p>
-<p><strong>Warnings</strong></p>
-<p>Now with all this being said, <strong>every entry exists for a reason</strong>. Some reasons are stupid, but some are good and even necessary. Using Autoruns wantonly can really mess things up; from iDevice support, to sound, to your system simply not working. <em>Nothing is truly safe unless you know exactly what it does.</em></p>
-<p>So my advice is: <strong>Google. Everything.</strong> Google has the answers to what almost everything in your startup is. It gets much easier over time as you begin to recognize common entries, but until then, just be careful with what you disable. Or don't and just accept that some things (like in my instance, time syncronization) may stop working and be extremely annoying to get working again.</p>
-<p><strong>How to use</strong></p>
-<p>Here's how you should approach using Autoruns:</p>
-<ul>
-<li><strong>Use. Google.</strong> Yes, it takes more time. Yes, it's worth it.</li>
-<li>Only disable things that you know what they do</li>
-<li>Use Autorun's handy &quot;Backup&quot; feature before you start</li>
-<li>If you are new to Autoruns or just want to experiment, disable small amounts at a time, then reboot. Much easier to troubleshoot if something goes wrong</li>
-</ul>
-<p>So now, the tabs of Autoruns ordered from &quot;Use&quot; to &quot;Avoid&quot;:</p>
-<ul>
-<li>
-<p><em>Logon</em> manages the programs that are run immediately at startup. It is by far the most important.</p>
-</li>
-<li>
-<p><em>Sidebar Gadgets</em> is an easy target if you don't use desktop Gadgets. And if you are reading this guide, worried about your PC's performance, you <em>should not be using desktop gadgets</em>.</p>
-</li>
-<li>
-<p><em>Explorer</em> deals with Windows Explorer extensions, mostly custom context menus (i.e. right click options).</p>
-</li>
-<li>
-<p><em>Internet Explorer</em> deals with IE-related extensions and such. But you <strong>should use a better browser than IE</strong> so )everything on this tab is (usually) unchecked for me.</p>
-</li>
-<li>
-<p><em>Scheduled Tasks</em> are like &quot;Logon&quot; but they only run once, usually at a specified time other than right after startup. Still, sometimes you can see a lot of scheduled tasks for dumb software that you don't care about (like 5 scheduled tasks for RealPlayer).</p>
-</li>
-<li>
-<p><em>WinLogon</em> (as I understand it) deals with things that are run after the computer boots, but before any user logs in (so things that run before the PC gets to the &quot;Login&quot; screen). Generally it has fewer bothersome entries than &quot;Logon&quot;, but you can examine it anyway. But be warned, I'm fairly certain it is more dangerous than &quot;Logon&quot;.</p>
-</li>
-<li>
-<p><em>Services</em> are probably the <strong>easiest way to break something</strong>. They do a lot of stuff for your system in the background, so disabling the wrong one can break a lot of stuff in the background without a clearcut reason why (like time syncronization...). I recommend being conservative with these, or even coming back to them later.</p>
-</li>
-<li>
-<p><em>Drivers</em>, <em>Codecs</em>, <em>Boot Execute</em>, <em>Image Hijacks</em>, <em>AppInit</em>, <em>KnownDLLs</em>, <em>Winsock Providers</em>, <em>Print Monitors</em>, <em>LSA Providers</em>, and <em>Network Providers</em> are stuff that I seldom touch. You can examine them for things that you are <em>certain</em> you don't need (like if you see something for &quot;WPS&quot; and you know what WPS is), but I just strongly recommend <em>experimenting</em> inside them.</p>
-</li>
-</ul>
-<h3 id="process-count">Process Count <a class="header-anchor" href="#process-count" aria-hidden="true">¶</a></h3>
-<p>Tools: Task Manager or Process Explorer</p>
-<p><strong>Difficulty: MEDIUM</strong></p>
-<p>This is simple: check how many processes are currently running. For consistency, it's best to check right after booting.</p>
-<p>As a general rule of thumb, you want a PC to have as close to 50 running processes as possible immediately after boot. If 50 sounds high to you, keep in mind this is also including Windows itself and all the stuff that is critical for it working.</p>
-<p><strong>Why is it needed</strong>
-As I said before, the less processes taking up RAM and CPU cycles, the better. A count is a really quick way to just guestimate if you're even in the right ballpark. Every PC is different and so the number '50' is not set in stone, it's just the amount that I've seen that computers generally have after disabling all the crap you don't need. But if you have some program for your work that needs to run all the time or something of the like, you'll have a higher count, unavoidably.</p>
-<p><strong>Warnings</strong>
-You <em>can</em> end processes right inside the task manager to try to get the count down, but (a) this doesn't solve how the program began running in the first place and (b) ending the wrong process is bad mojo. Usually when I've done it, it just forces a restart, but just be aware.</p>
-<p><strong>How to use</strong>
-Go to the &quot;Processes&quot; tab and check &quot;Show processes from all users&quot; (which requires administrator rights). Now the number at the bottom for &quot;Processes&quot; should be accurate. You can also scroll through the processes and try to get a grasp on what's running that can be disabled, but I can't really say more because it's so specific to each PC.</p>
-<p>If you're more adventurous, you can try downloading [Process Explorer] which is like Task Manager on steroids, but I honestly haven't used it enough to give any tips on using it pertaining to this guide.</p>
-<h2 id="os-checks">OS Checks <a class="header-anchor" href="#os-checks" aria-hidden="true">¶</a></h2>
-<h3 id="chkdsk">chkdsk <a class="header-anchor" href="#chkdsk" aria-hidden="true">¶</a></h3>
-<p>Tools: chkdsk (included with Windows)</p>
-<p><strong>Difficulty: EASY</strong>
-chkdsk (&quot;Check Disk&quot;) is a tool used back from DOS days. Sometimes there's a problem not with the files of Windows but with how those files sit on the disk; that is, a problem with the <em>filesystem</em>. That's what chkdsk scans for and can often fix.</p>
-<p><strong>Why is it needed</strong>
-Filesystem problems are just weird, in my experience. They're sporadic and unpredictable and so can cause problems to Windows, even if they aren't obvious. Basically they're never a good thing.</p>
-<p>chkdsk is the default tool for repairing filesystems on Windows, just as a tool call &quot;fdisk&quot; does the same on Linux. Like I said, it's back from DOS days and it's still very useful today.</p>
-<p><strong>Warnings</strong>
-Using chkdsk is not without risks. If it does find problems and it can't fix them, it will mark that part of the disk as &quot;bad&quot; for Windows to not use, and if there is a system file or whatever on that part of the disk, it would be gone.</p>
-<p>Additionally, you should <em>never</em> interrupt chkdsk or any filesystem repair operation. It can just mess up your disk. Before you start, make sure you have enough time to let it finish, and then let it run to completion.</p>
-<p><strong>How to use</strong>
-Pretty simple. Open a command prompt as administrator (Win+R, then type <code>cmd</code> and click &quot;OK&quot;) then type:</p>
-<blockquote>
-<p>chkdsk c: /r</p>
-</blockquote>
-<p>The above will actually perform the fixing. If you just want to scan first, you can do:</p>
-<blockquote>
-<p>chkdsk c:</p>
-</blockquote>
-<h3 id="sfc">sfc <a class="header-anchor" href="#sfc" aria-hidden="true">¶</a></h3>
-<p>Tools: sfc (included with Windows)</p>
-<p><strong>Difficulty: EASY</strong>
-sfc (&quot;System File Checked&quot;) does what it says: it checks the system files. It makes sure that they haven't changed, either maliciously or by some disk error or whatever.</p>
-<p><strong>Why is it needed</strong>
-Pretty simple: if a system file is corrupted in any way, the system may not act the way it's supposed to. It's not that common of a problem and even less likely to just cause speed problems. However, corrupted files are never a good thing so getting rid of them is always a step toward a more healthy PC.</p>
-<p><strong>Warnings</strong>
-No warnings to speak of, other than I would recommend not interrupting it for the same reason as chkdsk.</p>
-<p><strong>How to use</strong>
-Similar to chkdsk, open a command prompt as administrator (Win+R, then type <code>cmd</code> and click &quot;OK&quot;) then type:</p>
-<blockquote>
-<p>sfc /scannow</p>
-</blockquote>
-<p>And now you wait.</p>
-<h3 id="graphics-driver">Graphics Driver <a class="header-anchor" href="#graphics-driver" aria-hidden="true">¶</a></h3>
-<p>Tools: N/A</p>
-<p><strong>Difficulty: MEDIUM</strong>
-This may seem really weird, but I've included it because it's been known to happen (with ATI anyway...). It's really more of a hail mary but if you're desperate, anything you can try helps.</p>
-<p><strong>Why is it needed</strong>
-Occasionally the graphics driver just gets messed up. This can lead to a bunch of bizarre problems, from BSOD to poor performance. This is especially true if the slowness you notice <em>has to do with visuals</em>. If it's slow to drag windows, to scroll, or anything of the like, it may have to do with the graphics card.</p>
-<p><strong>Warnings</strong>
-As long as you grab the correct driver for your card, you should be completely fine. Though you may have to work at a really low resolution until you get it reinstalled.</p>
-<p><strong>How to use</strong>
-First download the driver.</p>
-<p><a href="http://support.amd.com/en-us/download">AMD</a>
-<a href="http://www.geforce.com/drivers">nVidia</a>
-<a href="https://downloadcenter.intel.com/">Intel</a></p>
-<p>Punch in whatever device you have and it'll download or use an automatic detector if it's offered and you want to.</p>
-<p>Next you need to uninstall the current driver. Get to the Device Manager (from Start Menu, right click &quot;Computer&quot; &amp; select &quot;Properties&quot;, should be on the left) and find yours under &quot;Display adapters&quot;. Right click it and select &quot;Uninstall&quot;.</p>
-<p>Finally, run the driver installer that you downloaded and reboot.</p>
-<h2 id="hardware-checks">Hardware Checks <a class="header-anchor" href="#hardware-checks" aria-hidden="true">¶</a></h2>
-<h3 id="memory">Memory <a class="header-anchor" href="#memory" aria-hidden="true">¶</a></h3>
-<p>Tools: memtest86, memtest86+, Windows Memory Diagnostic Tool</p>
-<p><strong>Difficulty: MEDIUM</strong>
-Just like hard drives, RAM (&quot;Random Access Memory&quot;) dies too eventually. There are many tools for this but the most popular open source one is called memtest86, which spawned off memtest86+. (The '86' comes from Intel's like of x86 processor architectures, which is what nearly all PCs use nowadays.)</p>
-<p>memtest86 is probably the most trusted any/all should be good. The Windows Diagnostic Tool is probably the easiest to use as it's already installed.</p>
-<p><strong>Why is it needed</strong>
-Bad memory results in many bad problems from BSOD to random restarts; but sometimes it can be more subtle.</p>
-<p><strong>Warnings</strong>
-N/A</p>
-<p><strong>How to use</strong>
-If you want to use Windows' own tool, just open the run dialog (Win+R) and type &quot;mdsched&quot;. It will require you to reboot to do the test.</p>
-<p>For the memtest86's, you basically download the ISO to burn to a CD or a ZIP to a bootable USB device, both of which are beyond the scope of this guide.</p>
-<p>Boot your CD/bootable USB drive and memtest should automatically start. You want to give it several passes, at least 3 to make sure there are no errors. This will take a while.</p>
-<p>If you find that your RAM is bad, you'll probably need to replace it. Think of this as a time to get a RAM upgrade! Woohoo!</p>
-<h3 id="smart-and-hdd-test">SMART and HDD test <a class="header-anchor" href="#smart-and-hdd-test" aria-hidden="true">¶</a></h3>
-<p>Tools: Your hard drive vendor's diagnostic test tool, Speccy</p>
-<p><strong>Difficulty: HARD</strong>
-SMART is &quot;Self-Monitoring, Analysis and Reporting Technology&quot;. Basically, it's the hard drive trying to check itself for malfunctions.</p>
-<p><strong>Why is it needed</strong>
-Hardware doesn't last forever. Eventually it breaks down and stops working correctly. If it does, it can cause wacky errors or even data loss. Or it can just start performing poorly. If you discover that your hard drive is dying, replace it.</p>
-<p><strong>Warnings</strong>
-Just be careful if a test ever says there could be data loss.</p>
-<p><strong>How to use</strong>
-SMART is easy to read with tools like Speccy but hard to interpret. It just spouts off numbers for the values and while some are consistent, others vary from vender to vendor.</p>
-<p>The result is that each vendor has its own diagnostic tool which is the easiest thing to trust. Here are a few:</p>
-<ul>
-<li>Western Digital: Data Lifeguard Diagnostic</li>
-<li>Seagate: Seagate's SeaTools</li>
-</ul>
-<p>For others like Toshiba, Fujitsu, Hitachi, Maxtor, and Samsung, you're on your own in terms of finding it. (Google is your friend.) The tool almost always gives a chance to test the SMART data and additionally can do something like checking writes, but I can't tell you <em>what</em> to run. But if you ever find an error, it's probably a bad sign.</p>
-<h2 id="advanced-malware">Advanced Malware <a class="header-anchor" href="#advanced-malware" aria-hidden="true">¶</a></h2>
-<ul>
-<li>AdwCleaner</li>
-<li>RogueKiller</li>
-<li>SecurityCheck
-ComboFix</li>
-<li>Farbar Recovery Scan Tool (FRST64)</li>
-<li>ANTI-ROOTKIT:
-<ul>
-<li>Avast (aswMBR)</li>
-<li>Kapersky (TDSSKiller)</li>
-<li>MalwareBytes (mbar)</li>
-</ul>
-</li>
-</ul>
-<p>MBAM Chameleon
-HiJackThis</p>
-<p>ESET Anti-rootkit???</p>
-<p>????????????????????????????</p>
-<p>Uhhhh....</p>
-<h3 id="windows-updates">Windows Updates <a class="header-anchor" href="#windows-updates" aria-hidden="true">¶</a></h3>
-<p>I've never had a Windows Update help performance, and it often hurts it. Example: when they introduced Windows Search 4, which hogged resources by indexing constantly while yielding no new features.</p>
-<p><strong>Difficulty: ???</strong>
-<strong>Why is it needed</strong>
-<strong>Warnings</strong>
-<strong>How to use</strong></p>
-<p>TODO:</p>
-<ul>
-<li>Add StartupSaver?</li>
-<li>Add section on building a Thumb Drive</li>
-<li>SSD TRIM?</li>
-<li>links to external files (Common Causes, Software Appendix)are broken</li>
-<li>add http://www.eset.com/online-scanner/</li>
-</ul>
 
-</article>
+<head>
+    <meta charset='UTF-8'>
+    <title>Solutions - Solutions for a Slow PC</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.png" />
+    <link rel='stylesheet' href='themes/github-markdown-css/github-markdown.css'>
+    <link rel='stylesheet' href='style.css'>
+
+</head>
+
+<body>
+
+    <nav class='site-nav'>
+        <ul>
+            <li>
+                <a>
+                    <img src='favicon.png'>
+                    <strong>Solutions for a Slow PC</strong>
+                </a>
+            </li>
+            <li>
+                <a href='index.html' class=''>about</a>
+            </li>
+
+            <li>
+                <a href='solutions.html' class='active'>solutions</a>
+            </li>
+
+            <li>
+                <a href='common_causes.html' class=''>common causes</a>
+            </li>
+
+            <li>
+                <a href='optimizations.html' class=''>optimizations</a>
+            </li>
+
+            <li>
+                <a href='software_appendix.html' class=''>software appendix</a>
+            </li>
+
+            <li>
+                <a href='sharing.html' class=''>sharing</a>
+            </li>
+        </ul>
+    </nav>
+    <a class="ribbon" href="https://github.com/notbryant/slow-pc-guide"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+        alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <article class='markdown-body'>
+        <h1>Solutions</h1>
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="solutions.html#solutions">Solutions</a>
+                <ul>
+                    <li><a href="solutions.html#freeing-drive-space">Freeing Drive Space</a>
+                        <ul>
+                            <li><a href="solutions.html#ccleaner">CCleaner</a></li>
+                            <li><a href="solutions.html#uninstall">Uninstall</a></li>
+                            <li><a href="solutions.html#windirstat">WinDirStat</a></li>
+                            <li><a href="solutions.html#doublekiller">DoubleKiller</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="solutions.html#scanning">Scanning</a>
+                        <ul>
+                            <li><a href="solutions.html#defragment">Defragment</a></li>
+                            <li><a href="solutions.html#anti-malware">Anti-malware</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="solutions.html#freeing-resources">Freeing Resources</a>
+                        <ul>
+                            <li><a href="solutions.html#bloated-anti-malware">Bloated Anti-malware</a></li>
+                            <li><a href="solutions.html#autoruns">Autoruns</a></li>
+                            <li><a href="solutions.html#process-count">Process Count</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="solutions.html#os-checks">OS Checks</a>
+                        <ul>
+                            <li><a href="solutions.html#chkdsk">chkdsk</a></li>
+                            <li><a href="solutions.html#sfc">sfc</a></li>
+                            <li><a href="solutions.html#graphics-driver">Graphics Driver</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="solutions.html#hardware-checks">Hardware Checks</a>
+                        <ul>
+                            <li><a href="solutions.html#memory">Memory</a></li>
+                            <li><a href="solutions.html#smart-and-hdd-test">SMART and HDD test</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="solutions.html#advanced-malware">Advanced Malware</a>
+                        <ul>
+                            <li><a href="solutions.html#windows-updates">Windows Updates</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <hr class='pagebreak'>
+        <h2>Freeing Drive Space</h2>
+        <p>Doing this section before <a href="solutions.html#scanning">Scanning</a> is wise because you can remove junk that does not need to be scanned, which will make the scanning process shorter.</p>
+        <h3>CCleaner</h3>
+        <p>Tools: CCleaner</p>
+        <p><strong>Difficulty: EASY</strong></p>
+        <p>CCleaner is useful for two things:</p>
+        <ul>
+            <li>Cleaning junk files, like temporary files and caches</li>
+            <li>Cleaning unnecessary registry files.</li>
+        </ul>
+        <p><strong>Why is it needed</strong></p>
+        <p>This is mostly to clean unnecessary disk usage; it doesn't necessarily yield a noticable performance increase in and of itself, it's more just something you should do occasionally (like 1x a month) for maintenance.</p>
+        <p><strong>Warnings</strong></p>
+        <p>Some people say to never use a registry cleaner, that it is does not yield any performance benefits and can cause problems. All that can be offered in retort is anecdotal evidence of many people <em>never</em> encountering a single issue as a
+            result of CCleaner's registry cleaner.</p>
+        <p>If you <em>are</em> worred about encountering problems, just backup the registry when prompted.</p>
+        <p><strong>How to use</strong></p>
+        <p>Often clearing the registry will reveal more files that can be removed, and vice versa. So a good strategy is to do the following:</p>
+        <p>(a) run the registry cleaner (b) run the disk cleaner (c) repeat until the neither show any results</p>
+        <h3>Uninstall</h3>
+        <p>Tools: One or more of RevoUninstaller, CCleaner, and builtin &quot;Add/Remove Programs&quot;</p>
+        <p><strong>Difficulty: MEDIUM</strong></p>
+        <p>Uninstalling unused programs is just good practice, <em>especially</em> for stuff that came bundled with your PC that you never use.</p>
+        <p>RevoUninstaller has a the awesome functionality of searching around for stuff that the regular uninstaller missed, which makes it the most thorough.</p>
+        <p>CCleaner also lists programs to uninstall under &quot;Tools&quot;, and the built-in uninstaller is also adequate.</p>
+        <p>You can get by using only one, but for complete thoroughness, use all 3 because some show entries that others miss. I don't know why.</p>
+        <p><strong>Why is it needed</strong></p>
+        <p>This yields two benefits:</p>
+        <ul>
+            <li>frees disk space</li>
+            <li>removes unused programs that may doing things in the background</li>
+        </ul>
+        <p><strong>Warnings</strong></p>
+        <p>You need to know what you are uninstalling before you uninstall it. Most of the time this isn't dangerous to your system, but you can sometimes break the programs that you use by uninstalling something that it depends on. <em>Most</em> things
+            are easily identifiable; when they are not, use Google. If you are ever unsure, hold off, but make note of what you may want to uninstall later on.</p>
+        <p><strong>How to use</strong></p>
+        <p>RevoUninstaller lets you specify different levels of thoroughness; &quot;Medium&quot; is usually fine. Otherwise, you just uninstall stuff one at a time.</p>
+        <p>Also, if you uninstall a few things, running <a href="solutions.html#ccleaner">CCleaner</a> again might be a wise idea, to pick up any files they left behind. (Even RevoUninstaller misses some occasionally.)</p>
+        <h3>WinDirStat</h3>
+        <p>Tools: WinDirStat</p>
+        <p><strong>Difficulty: MEDIUM-HARD</strong></p>
+        <p>If your disk is full, WinDirStat is a nice program that shows you, visually, what is taking up space on your drive. It shows files as pretty boxes and sorts by folders. It's great.</p>
+        <p><strong>Why is it needed</strong></p>
+        <p>This is mostly for <em>analysis</em> rather than direct problem solving. Its main purpose is to give you insight, because often seeing what takes up a lot of space can hint at what might be using other resources as well. But the main benefit is
+            when your disk is full, or at least fuller than you'd like it to be.</p>
+        <p>Granted, it does take a bit of familiarity with computers to understand just what you're looking at. Like for example: two common big files (&quot;pagefile.sys&quot; and &quot;hiberfil.sys&quot;) are system files that you can't exactly just delete.</p>
+        <p><strong>Warnings</strong></p>
+        <p>Deleting files from WinDirStat can be somewhat dangerous. If they are personal files that you immediately recognize like downloads or music or movies, that's ok. But for files that are related to programs or to Windows itself, deleting files wantonly
+            is <em>very</em> unwise unless you <em>really</em> know what you are doing. For example: space wasters inside &quot;C:\Program Files&quot; should be <a href="solutions.html#uninstall">uninstalled</a> rather than just deleted (though sometimes
+            they shouldn't be uninstalled either).</p>
+        <p>Best rule of thumb is: <strong>Always know what you are deleting before you delete it</strong>.</p>
+        <p><strong>How to use</strong></p>
+        <p>After selecting the C: drive, you will have to wait for the little Pacman-esque characters to finish. Then you can click pretty boxes to identify what file it is, or select files in the list to see what boxes they are. Isn't it pretty?</p>
+        <h3>DoubleKiller</h3>
+        <p>Tools: DoubleKiller</p>
+        <p><strong>Difficulty: MEDIUM</strong></p>
+        <p><em>Sometimes</em> space is wasted because there are duplicate files laying around. DoubleKiller provides a very easy way to find, identify, and delete duplicate files. This is really only for a very specific case, but it is worth mentioning.</p>
+        <p><strong>Why is it needed</strong></p>
+        <p>Duplicate files on a PC are not always a bad thing. Duplicate <em>personal</em> files are simply wasted space, as well as clutter.</p>
+        <p><strong>Warnings</strong></p>
+        <p>One should be wary to only delete extra files that you are sure are not needed. For example, Windows likes to keep backups of core system files, meaning they will be in two or more places. Deleting either the originals or the backups can cause
+            problems.</p>
+        <p>So my recommendation, again, is to only use it to delete personal files. Music files, pictures, videos, documents, etc.</p>
+        <p><strong>How to use</strong></p>
+        <p><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png" alt="TODO: using DoubleKiller" /></p>
+        <h2>Scanning</h2>
+        <p>This section contains things that take a <em>long</em> time, so everything in this section can be done <strong>simultaneously</strong>. Basically, watch a movie. I recommend <em>The Matrix</em>. That film is classic.</p>
+        <h3>Defragment</h3>
+        <p>Tools: Defraggler, Auslogics Disk Defrag, or builtin &quot;Disk Defragmenter&quot;</p>
+        <p><strong>Difficulty: EASY</strong></p>
+        <p><strong>Why is it needed</strong></p>
+        <p>What &quot;fragmentation&quot; is and why it's bad is explained in the <a href="common_causes.html#fragmented-hard-drive">Common Causes section</a>.</p>
+        <p><strong>Warnings</strong></p>
+        <p>Many people online say that you do not need to defragment Windows 7 and 8 because it does it for you. The &quot;warning&quot;, then, would be that defragmenting on 7 or 8 works your hard drive needlessly which might shorten its life a little.</p>
+        <p>This, to me, seems like a misnomer. Windows 7 and Windows 8 <em>schedule</em> defragmentation automatically, but they are not immune to it in the same way that, say, Linux is. And more importantly, they schedule it for a <em>specific time each week</em>,
+            usually in the middle of the night. That means that if your computer shuts down every night or goes to sleep (like a laptop), it won't defragment automatically. You can set your own schedule if you are sure that your PC will be on and awake
+            when the scan is supposed to start and <em>stay</em> on for the duration of the scan.</p>
+        <p>But it never hurts to check. So my logic is: analyze the disk first with a 3rd party defragmenter. If it says it is fragmented, defragment it.</p>
+        <p><strong>How to use</strong></p>
+        <p>While defragmenting, you can continue to use your computer as normal, and if the process is interrupted, you can just start it again and it will basically pick up where it left off.</p>
+        <h3>Anti-malware</h3>
+        <p>Tools recommended for long-term install:</p>
+        <ul>
+            <li>ESET nod32 ($$)</li>
+            <li>Malwarebytes Anti-Malware (MBAM)</li>
+            <li>Avast</li>
+            <li>Bit Defender</li>
+        </ul>
+        <p>Tools recommended just for repair-time scanning:</p>
+        <ul>
+            <li>Spybot (for Spyware)</li>
+            <li>Super Antispyware (for Spyware)</li>
+            <li>whatever is already installed</li>
+        </ul>
+        <p><strong>Difficulty: EASY</strong></p>
+        <p>The reasoning behind why malware can slow down your PC is covered in the <a href="common_causes.html#malware">Common Causes section</a>.</p>
+        <p><strong>Why is it needed</strong></p>
+        <p>It's generally better to scan for malware early on in the repair process, i.e. don't save it toward the end. If the system does have Malware, it's best to get rid of it ASAP so it doesn't have time to do naughty things while you are doing anything
+            else.</p>
+        <p>The reason it is placed <em>after</em> clearing disk space in this guide is that getting rid of junk data means that's less data then the scanner has to scan, and if you are running multiple scanners, that can reduce the time significantly.</p>
+        <p><strong>Warnings</strong></p>
+        <p>The only real danger is to make <em>sure</em> that the scanner you are using is legit and is not itself a malware! Posing as a virus scanner is a very common tactic for malware to gain access to your system. So, just <em>google</em> any anti-malware
+            software that you are unsure of.</p>
+        <p>The only other warning is: make sure only have one anti-malware software installed when you are done with the machine. You can install any scanners you want while in the repairing process, but when you are finished, make sure at most 1 remains.
+            And check the section on <a href="solutions.html#bloated-anti-malware">removing anti-malware software</a> to make sure that you do it properly.</p>
+        <p><strong>How to use</strong></p>
+        <p>Go ahead and feel free to use whatever is installed, including the &quot;bloaty&quot; ones (McAfee, Symantic, Norton, etc).</p>
+        <p>Also make sure that you scan with at least one of the &quot;good&quot; anti-malware softwares listed at the beginning of this section.</p>
+        <p>And feel free to let them all run at the same time, even overnight (as long as you set the power preferences to not fall asleep when idle).</p>
+        <h2>Freeing Resources</h2>
+        <p>In this guide, &quot;resources&quot; generally means &quot;CPU and RAM&quot;. If you are not tech-savvy, there are some wonderfully cheesy analogies for them in the <a href="common_causes.html#high-resource-usage">Common Causes section</a>.</p>
+        <h3>Bloated Anti-malware</h3>
+        <p>Tools: ESET AV Remover or vendor-specific removal tool(s)</p>
+        <p><strong>Difficulty: EASY</strong></p>
+        <p>Many of the big-name anti-malware programs are what is called &quot;bloated&quot; or &quot;bloatware&quot;, meaning that they use too much of a system's resources for what they are intended to do. So while malware programs can drain a system's
+            resources, anti-malware can be just as bad in terms of performance.</p>
+        <p><strong>Why is it needed</strong></p>
+        <p>Even though the intention might be good, if an anti-malware software slows the system down to an unusable point, it is doing more help than harm; what's the point of a secure PC if you can't use it?</p>
+        <p>What's important to realize is that <em>simply uninstalling is not enough</em>. Each big-name anti-malware vendor has their own &quot;removal tool&quot;, because even <em>they</em> realize that their product is just dang difficult to get rid of.</p>
+        <p><strong>Warnings</strong></p>
+        <p>If you are working on someone else's computer, consider it best practice to ask before removing any <em>paid</em> installed anti-malware programs. Often users use these bloaty ones because they come pre-installed when they buy the PC, but still,
+            there's a chance that they actually want it. Even if you think that they are better off getting rid of the bloatware and replacing it with a better (often free) alternative, it's not your choice to make.</p>
+        <p><strong>How to use</strong></p>
+        <p>Always start with a normal uninstall. See the <a href="solutions.html#uninstall">Uninstall</a> section for tips on how. Then, after it finishes (you don't have to reboot after....unless you really want to), run a removal tool.</p>
+        <p>Thankfully, ESET actually removal tool that removes old anti-malware softwares! It's called <a href="http://help.eset.com/ees/6/en-US/?av_remover.htm">ESET AV Remover</a></p>
+        <p>Or, if you'd prefer to use the vendor's own removal tool, ESET also has a <a href="http://kb.eset.com/esetkb/index?page=content&amp;id=SOLN146">huge list</a> that makes tracking down the one(s) you need easy.</p>
+        <h3>Autoruns</h3>
+        <p>Tools: Autoruns</p>
+        <p><strong>Difficulty: HARD</strong></p>
+        <p>Autoruns is a powertool made by Sysinternals, a resource offered by Microsoft (wow, MS actually makes good things every now and then...) that helps you manage things like startup entries, browser helper objects, services, etc. Basically it's a
+            tool for power users.</p>
+        <p><strong>Why is it needed</strong></p>
+        <p>This is actually <em>the biggest</em> culprit to slow PCs: too many programs run on startup. Not only does this take longer for your computer to boot up, it also (more importantly) means that more processes will be running after the computer has
+            finished booting.</p>
+        <p>For those reasons, you generally only want to start things on boot that you will <em>absolutely</em> need. Software vendors don't seem to think that way. They tend to think:</p>
+        <pre><code>&quot;My tool X is pretty handy to the user, it should be running all the time in case the user needs it. It doesn't use too many resources, the user won't even notice it.&quot;
+</code></pre>
+        <p>They don't take into consideration that <em>every other</em> software vendor thinks the same thing and the result is that you have two dozen tools that you rarely use running all the time, consuming precious resources.</p>
+        <p>Additionally, Autoruns lets you tweak a <em>plethora</em> of other options that this guide can't even begin to cover. There are even some that I just don't mess with.</p>
+        <p><strong>Warnings</strong></p>
+        <p>Now with all this being said, <strong>every entry exists for a reason</strong>. Some reasons are stupid, but some are good and even necessary. Using Autoruns wantonly can really mess things up; from iDevice support, to sound, to your system simply
+            not working. <em>Nothing is truly safe unless you know exactly what it does.</em></p>
+        <p>So my advice is: <strong>Google. Everything.</strong> Google has the answers to what almost everything in your startup is. It gets much easier over time as you begin to recognize common entries, but until then, just be careful with what you disable.
+            Or don't and just accept that some things (like in my instance, time syncronization) may stop working and be extremely annoying to get working again.</p>
+        <p><strong>How to use</strong></p>
+        <p>Here's how you should approach using Autoruns:</p>
+        <ul>
+            <li><strong>Use. Google.</strong> Yes, it takes more time. Yes, it's worth it.</li>
+            <li>Only disable things that you know what they do</li>
+            <li>Use Autorun's handy &quot;Backup&quot; feature before you start</li>
+            <li>If you are new to Autoruns or just want to experiment, disable small amounts at a time, then reboot. Much easier to troubleshoot if something goes wrong</li>
+        </ul>
+        <p>So now, the tabs of Autoruns ordered from &quot;Use&quot; to &quot;Avoid&quot;:</p>
+        <ul>
+            <li>
+                <p><em>Logon</em> manages the programs that are run immediately at startup. It is by far the most important.</p>
+            </li>
+            <li>
+                <p><em>Sidebar Gadgets</em> is an easy target if you don't use desktop Gadgets. And if you are reading this guide, worried about your PC's performance, you <em>should not be using desktop gadgets</em>.</p>
+            </li>
+            <li>
+                <p><em>Explorer</em> deals with Windows Explorer extensions, mostly custom context menus (i.e. right click options).</p>
+            </li>
+            <li>
+                <p><em>Internet Explorer</em> deals with IE-related extensions and such. But you <strong>should use a better browser than IE</strong> so )everything on this tab is (usually) unchecked for me.</p>
+            </li>
+            <li>
+                <p><em>Scheduled Tasks</em> are like &quot;Logon&quot; but they only run once, usually at a specified time other than right after startup. Still, sometimes you can see a lot of scheduled tasks for dumb software that you don't care about (like
+                    5 scheduled tasks for RealPlayer).</p>
+            </li>
+            <li>
+                <p><em>WinLogon</em> (as I understand it) deals with things that are run after the computer boots, but before any user logs in (so things that run before the PC gets to the &quot;Login&quot; screen). Generally it has fewer bothersome entries
+                    than &quot;Logon&quot;, but you can examine it anyway. But be warned, I'm fairly certain it is more dangerous than &quot;Logon&quot;.</p>
+            </li>
+            <li>
+                <p><em>Services</em> are probably the <strong>easiest way to break something</strong>. They do a lot of stuff for your system in the background, so disabling the wrong one can break a lot of stuff in the background without a clearcut reason
+                    why (like time syncronization...). I recommend being conservative with these, or even coming back to them later.</p>
+            </li>
+            <li>
+                <p><em>Drivers</em>, <em>Codecs</em>, <em>Boot Execute</em>, <em>Image Hijacks</em>, <em>AppInit</em>, <em>KnownDLLs</em>, <em>Winsock Providers</em>, <em>Print Monitors</em>, <em>LSA Providers</em>, and <em>Network Providers</em> are stuff
+                    that I seldom touch. You can examine them for things that you are <em>certain</em> you don't need (like if you see something for &quot;WPS&quot; and you know what WPS is), but I just strongly recommend <em>experimenting</em> inside
+                    them.</p>
+            </li>
+        </ul>
+        <h3>Process Count</h3>
+        <p>Tools: Task Manager or Process Explorer</p>
+        <p><strong>Difficulty: MEDIUM</strong></p>
+        <p>This is simple: check how many processes are currently running. For consistency, it's best to check right after booting.</p>
+        <p>As a general rule of thumb, you want a PC to have as close to 50 running processes as possible immediately after boot. If 50 sounds high to you, keep in mind this is also including Windows itself and all the stuff that is critical for it working.</p>
+        <p><strong>Why is it needed</strong> As I said before, the less processes taking up RAM and CPU cycles, the better. A count is a really quick way to just guestimate if you're even in the right ballpark. Every PC is different and so the number '50'
+            is not set in stone, it's just the amount that I've seen that computers generally have after disabling all the crap you don't need. But if you have some program for your work that needs to run all the time or something of the like, you'll
+            have a higher count, unavoidably.</p>
+        <p><strong>Warnings</strong> You <em>can</em> end processes right inside the task manager to try to get the count down, but (a) this doesn't solve how the program began running in the first place and (b) ending the wrong process is bad mojo. Usually
+            when I've done it, it just forces a restart, but just be aware.</p>
+        <p><strong>How to use</strong> Go to the &quot;Processes&quot; tab and check &quot;Show processes from all users&quot; (which requires administrator rights). Now the number at the bottom for &quot;Processes&quot; should be accurate. You can also
+            scroll through the processes and try to get a grasp on what's running that can be disabled, but I can't really say more because it's so specific to each PC.</p>
+        <p>If you're more adventurous, you can try downloading [Process Explorer] which is like Task Manager on steroids, but I honestly haven't used it enough to give any tips on using it pertaining to this guide.</p>
+        <h2>OS Checks</h2>
+        <h3>chkdsk</h3>
+        <p>Tools: chkdsk (included with Windows)</p>
+        <p><strong>Difficulty: EASY</strong> chkdsk (&quot;Check Disk&quot;) is a tool used back from DOS days. Sometimes there's a problem not with the files of Windows but with how those files sit on the disk; that is, a problem with the <em>filesystem</em>.
+            That's what chkdsk scans for and can often fix.</p>
+        <p><strong>Why is it needed</strong> Filesystem problems are just weird, in my experience. They're sporadic and unpredictable and so can cause problems to Windows, even if they aren't obvious. Basically they're never a good thing.</p>
+        <p>chkdsk is the default tool for repairing filesystems on Windows, just as a tool call &quot;fdisk&quot; does the same on Linux. Like I said, it's back from DOS days and it's still very useful today.</p>
+        <p><strong>Warnings</strong> Using chkdsk is not without risks. If it does find problems and it can't fix them, it will mark that part of the disk as &quot;bad&quot; for Windows to not use, and if there is a system file or whatever on that part of
+            the disk, it would be gone.</p>
+        <p>Additionally, you should <em>never</em> interrupt chkdsk or any filesystem repair operation. It can just mess up your disk. Before you start, make sure you have enough time to let it finish, and then let it run to completion.</p>
+        <p><strong>How to use</strong> Pretty simple. Open a command prompt as administrator (Win+R, then type <code>cmd</code> and click &quot;OK&quot;) then type:</p>
+        <blockquote>
+            <p>chkdsk c: /r</p>
+        </blockquote>
+        <p>The above will actually perform the fixing. If you just want to scan first, you can do:</p>
+        <blockquote>
+            <p>chkdsk c:</p>
+        </blockquote>
+        <h3>sfc</h3>
+        <p>Tools: sfc (included with Windows)</p>
+        <p><strong>Difficulty: EASY</strong> sfc (&quot;System File Checked&quot;) does what it says: it checks the system files. It makes sure that they haven't changed, either maliciously or by some disk error or whatever.</p>
+        <p><strong>Why is it needed</strong> Pretty simple: if a system file is corrupted in any way, the system may not act the way it's supposed to. It's not that common of a problem and even less likely to just cause speed problems. However, corrupted
+            files are never a good thing so getting rid of them is always a step toward a more healthy PC.</p>
+        <p><strong>Warnings</strong> No warnings to speak of, other than I would recommend not interrupting it for the same reason as chkdsk.</p>
+        <p><strong>How to use</strong> Similar to chkdsk, open a command prompt as administrator (Win+R, then type <code>cmd</code> and click &quot;OK&quot;) then type:</p>
+        <blockquote>
+            <p>sfc /scannow</p>
+        </blockquote>
+        <p>And now you wait.</p>
+        <h3>Graphics Driver</h3>
+        <p>Tools: N/A</p>
+        <p><strong>Difficulty: MEDIUM</strong> This may seem really weird, but I've included it because it's been known to happen (with ATI anyway...). It's really more of a hail mary but if you're desperate, anything you can try helps.</p>
+        <p><strong>Why is it needed</strong> Occasionally the graphics driver just gets messed up. This can lead to a bunch of bizarre problems, from BSOD to poor performance. This is especially true if the slowness you notice <em>has to do with visuals</em>.
+            If it's slow to drag windows, to scroll, or anything of the like, it may have to do with the graphics card.</p>
+        <p><strong>Warnings</strong> As long as you grab the correct driver for your card, you should be completely fine. Though you may have to work at a really low resolution until you get it reinstalled.</p>
+        <p><strong>How to use</strong> First download the driver by the vendor who makes your card.</p>
+        <ul>
+            <li><a href="http://support.amd.com/en-us/download">AMD</a></li>
+            <li><a href="http://www.geforce.com/drivers">nVidia</a></li>
+            <li><a href="https://downloadcenter.intel.com/">Intel</a></li>
+        </ul>
+        <p>Punch in whatever device you have and it'll download or use an automatic detector if it's offered and you want to.</p>
+        <p>Next you need to uninstall the current driver. Get to the Device Manager (from Start Menu, right click &quot;Computer&quot; &amp; select &quot;Properties&quot;, should be on the left) and find yours under &quot;Display adapters&quot;. Right click
+            it and select &quot;Uninstall&quot;.</p>
+        <p>Finally, run the driver installer that you downloaded and reboot.</p>
+        <h2>Hardware Checks</h2>
+        <h3>Memory</h3>
+        <p>Tools: memtest86, memtest86+, Windows Memory Diagnostic Tool</p>
+        <p><strong>Difficulty: MEDIUM</strong> Just like hard drives, RAM (&quot;Random Access Memory&quot;) dies too eventually. There are many tools for this but the most popular open source one is called memtest86, which spawned off memtest86+. (The '86'
+            comes from Intel's like of x86 processor architectures, which is what nearly all PCs use nowadays.)</p>
+        <p>memtest86 is probably the most trusted any/all should be good. The Windows Diagnostic Tool is probably the easiest to use as it's already installed.</p>
+        <p><strong>Why is it needed</strong> Bad memory results in many bad problems from BSOD to random restarts; but sometimes it can be more subtle.</p>
+        <p><strong>Warnings</strong> N/A
+        </p>
+        <p><strong>How to use</strong> If you want to use Windows' own tool, just open the run dialog (Win+R) and type &quot;mdsched&quot;. It will require you to reboot to do the test.</p>
+        <p>For the memtest86's, you basically download the ISO to burn to a CD or a ZIP to a bootable USB device, both of which are beyond the scope of this guide.</p>
+        <p>Boot your CD/bootable USB drive and memtest should automatically start. You want to give it several passes, at least 3 to make sure there are no errors. This will take a while.</p>
+        <p>If you find that your RAM is bad, you'll probably need to replace it. Think of this as a time to get a RAM upgrade! Woohoo!</p>
+        <h3>SMART and HDD test</h3>
+        <p>Tools: Your hard drive vendor's diagnostic test tool, Speccy</p>
+        <p><strong>Difficulty: HARD</strong> SMART is &quot;Self-Monitoring, Analysis and Reporting Technology&quot;. Basically, it's the hard drive trying to check itself for malfunctions.</p>
+        <p><strong>Why is it needed</strong> Hardware doesn't last forever. Eventually it breaks down and stops working correctly. If it does, it can cause wacky errors or even data loss. Or it can just start performing poorly. If you discover that your
+            hard drive is dying, replace it.</p>
+        <p><strong>Warnings</strong> Just be careful if a test ever says there could be data loss.</p>
+        <p><strong>How to use</strong> SMART is easy to read with tools like Speccy but hard to interpret. It just spouts off numbers for the values and while some are consistent, others vary from vender to vendor.</p>
+        <p>The result is that each vendor has its own diagnostic tool which is the easiest thing to trust. Here are a few:</p>
+        <ul>
+            <li>Western Digital: Data Lifeguard Diagnostic</li>
+            <li>Seagate: Seagate's SeaTools</li>
+        </ul>
+        <p>For others like Toshiba, Fujitsu, Hitachi, Maxtor, and Samsung, you're on your own in terms of finding it. (Google is your friend.) The tool almost always gives a chance to test the SMART data and additionally can do something like checking writes,
+            but I can't tell you <em>what</em> to run. But if you ever find an error, it's probably a bad sign.</p>
+        <h2>Advanced Malware</h2>
+        <ul>
+            <li>AdwCleaner</li>
+            <li>RogueKiller</li>
+            <li>SecurityCheck ComboFix
+            </li>
+            <li>Farbar Recovery Scan Tool (FRST64)</li>
+            <li>ANTI-ROOTKIT:
+                <ul>
+                    <li>Avast (aswMBR)</li>
+                    <li>Kapersky (TDSSKiller)</li>
+                    <li>MalwareBytes (mbar)</li>
+                </ul>
+            </li>
+        </ul>
+        <p>MBAM Chameleon HiJackThis
+        </p>
+        <p>ESET Anti-rootkit???</p>
+        <p>????????????????????????????</p>
+        <p>Uhhhh....</p>
+        <h3>Windows Updates</h3>
+        <p>I've never had a Windows Update help performance, and it often hurts it. Example: when they introduced Windows Search 4, which hogged resources by indexing constantly while yielding no new features.</p>
+        <p><strong>Difficulty: ???</strong>
+            <strong>Why is it needed</strong>
+            <strong>Warnings</strong>
+            <strong>How to use</strong></p>
+        <p>TODO:</p>
+        <ul>
+            <li>Add cleaning dust</li>
+            <li>Add boot 2 Linux</li>
+            <li>Add StartupSaver?</li>
+            <li>Add section on building a Thumb Drive</li>
+            <li>SSD TRIM?</li>
+            <li>links to external files (Common Causes, Software Appendix)are broken</li>
+            <li>add http://www.eset.com/online-scanner/</li>
+        </ul>
+
+    </article>
 </body>
+
 </html>

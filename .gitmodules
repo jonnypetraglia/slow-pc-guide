@@ -1,9 +1,9 @@
-[submodule "styles/github-markdown-css"]
-	path = styles/github-markdown-css
+[submodule "themes/github-markdown-css"]
+	path = themes/github-markdown-css
 	url = https://github.com/sindresorhus/github-markdown-css
-[submodule "styles/markdown-css-themes"]
-	path = styles/markdown-css-themes
+[submodule "themes/markdown-css-themes"]
+	path = themes/markdown-css-themes
 	url = https://github.com/jasonm23/markdown-css-themes
-[submodule "styles/markdown-styles"]
-	path = styles/markdown-styles
+[submodule "themes/markdown-styles"]
+	path = themes/markdown-styles
 	url = https://github.com/mixu/markdown-styles

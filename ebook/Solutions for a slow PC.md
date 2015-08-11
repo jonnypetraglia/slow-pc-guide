@@ -1,13 +1,24 @@
 # Solutions for a Slow PC #
 
-    Version: 0.1
-    Date: 2015-07-23
-    Author: notbryant <notbryant@gmail.com>
-    Contributors: N/A
-    Copyright: 2015 Jon Petraglia
+![Logo](logo.png)
+
+```
+---
+Title: Solutions for a Slow PC
+Version: 0.2
+Modified: 2015-08-10
+Published: 2015-07-23
+Creators: Jon Petraglia <notbryant@gmail.com>
+License: CC BY-NC-SA 4.0 License
+Copyright: 2015 Jon Petraglia
+---
+```
+
+![CC BY-NC-SA 4.0](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
 
 
-![Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
+<!----------------------------------------------------------------------------->
+
 ## Table of Contents ##
 
 - [Solutions for a Slow PC](#solutions-for-a-slow-pc)
@@ -52,12 +63,14 @@
 - [Sharing](#sharing)
   * [License](#license)
   * [Contributing](#contributing)
+    + [Guidelines](#guidelines)
   * [Forks](#forks)
+  * [Misc Credits](#misc-credits)
 
-******
+<!----------------------------------------------------------------------------->
 
 
-## Purpose #
+## Purpose ##
 
 This is a guide/reference on how to _troubleshoot and (hopefully) solve things that cause a PC to run slow_. There were several motivations for compiling it.
 
@@ -70,7 +83,7 @@ This makes a good reference when _your_ PC slows down as well. Am I remembering 
 __Educate the masses.__
 The goal is for people who are "bad with computers" to be able to at least read this and understand it, and for people who are "not tech savvy" to be able to perform most of the steps. In short, this guide should be able to help you solve some problems without having to go to your family tech person or GeekSquid.
 
-__Inform the masses.__
+__Walk in our shoes.__
 One last lofty goal is to give non-tech savvy people a glimpse of just what goes in to maintaining a PC. That it's not "magic" and we that are "good with computers" aren't wizards (as much as we'd like to be), and that being smart with computers does not mean that you have the instant fix to everything. Very often, it's a learning process. In short, the goal is to give people an appreciation for the tech people in their lives who have spent years learning stuff like this. _Thank him/her and buy him/her a beer._
 
 
@@ -90,19 +103,22 @@ All mentioned tools (softwares) will have an entry in the [Software Appendix](#s
 
 ## No Warranty ##
 
-THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether as a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs, nor is it guaranteed to address _every_ issue. 
+THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether they be a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs nor is it guaranteed to address _every_ issue. 
 
 ## Links and Downloads ##
 
-Below are the different ways you can read/download this guide.
+This guide is available __[on the Web](http://notbryant.github.io/slow-pc-guide)__.
 
-  - [on the Web](http://notbryant.github.io/slow-pc-guide)
-  - [on GitHub, in MarkDown](https://github.com/notbryant/slow-pc-guide)
+You can also download it in a variety of other formats:
+
   - [as an EPUB e-book](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.epub)
   - [as a PDF document](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.pdf)
+  - [as a standalone HTML file](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.md)
+  - [as a standalone MarkDown file](https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.md)
 
+And lastly, the guide is maintained on [GitHub](https://github.com/notbryant/slow-pc-guide). Check the section [Sharing](#sharing) for things like the license and how to contribute.
 
-******
+<!----------------------------------------------------------------------------->
 
 # Solutions #
 
@@ -214,7 +230,7 @@ So my recommendation, again, is to only use it to delete personal files. Music f
 
 **How to use**
 
-
+![TODO: using DoubleKiller](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
 
 ## Scanning ##
@@ -283,7 +299,7 @@ And feel free to let them all run at the same time, even overnight (as long as y
 
 ## Freeing Resources ##
 
-In this guide, "resources" generally means "CPU and RAM". If you are not tech-savvy, there are some wonderfully cheesy analogies for them in the [Common Causes section](#resource-usage).
+In this guide, "resources" generally means "CPU and RAM". If you are not tech-savvy, there are some wonderfully cheesy analogies for them in the [Common Causes section](#high-resource-usage).
 
 ### Bloated Anti-malware ###
 
@@ -452,11 +468,11 @@ Occasionally the graphics driver just gets messed up. This can lead to a bunch o
 As long as you grab the correct driver for your card, you should be completely fine. Though you may have to work at a really low resolution until you get it reinstalled.
 
 **How to use**
-First download the driver.
+First download the driver by the vendor who makes your card.
 
-[AMD](http://support.amd.com/en-us/download)
-[nVidia](http://www.geforce.com/drivers)
-[Intel](https://downloadcenter.intel.com/)
+  - [AMD](http://support.amd.com/en-us/download)
+  - [nVidia](http://www.geforce.com/drivers)
+  - [Intel](https://downloadcenter.intel.com/)
 
 Punch in whatever device you have and it'll download or use an automatic detector if it's offered and you want to.
 
@@ -556,6 +572,8 @@ I've never had a Windows Update help performance, and it often hurts it. Example
 
 
 TODO:
+  - Add cleaning dust
+  - Add boot 2 Linux
   - Add StartupSaver?
   - Add section on building a Thumb Drive
   - SSD TRIM?
@@ -563,7 +581,7 @@ TODO:
   - add http://www.eset.com/online-scanner/
 
 
-******
+<!----------------------------------------------------------------------------->
 
 # Common Causes #
 
@@ -581,7 +599,7 @@ With those cheesy analogies, hopefully you see why I sometimes refer to them as 
 
 ## Insufficient Memory ##
 
-I already talked about memory in [Resource Usage](#resource-usage), but there _are_ cases when the amount of RAM you have in your machine is simply insufficient for the task at hand.
+I already talked about memory in [Resource Usage](#freeing-resources), but there _are_ cases when the amount of RAM you have in your machine is simply insufficient for the task at hand.
 
 This slows down the computer because Windows uses a tactic called "virtual memory", where it treats a part of the hard drive (called the "pagefile") as if it were memory. The purpose is to move contents of RAM that haven't been used recently into the pagefile so that it can use the real memory space for stuff you _are_ using. (To extend the analogy from before, it's like putting stuff on the desk that you don't currently need on the floor.)
 
@@ -676,7 +694,7 @@ The solution is called a Heat Sink which is made of metal and directly touches t
 
 **Poor airflow**: Airflow inside the case is critical, both in dissipating heat from a heat sink and also moving hot air out of the case and fresh air in. Having enough fans is crucial, both intake and exhaust, as is the quality of the fan in terms of how much air they push measured in CFM (Cubit Feet per Minute). Lastly, good cable management is important to make sure that air can flow freely from the intake (front) to the exhaust (back) of the case. Good cases are designed with all these things in mind, including enough good quality fans and utilities to keep cables out of the way.
 
-** Poor ventilation**: Ventilation (moving air in and out of the case) directly effects airflow inside the case; if fans can't pull fresh air in or push hot air out, it's going to build up regardless of how well it flows. The first step is ensuring that the intake/outake fans are not blocked. For desktops, the intake tends to be in the front and the exhaust in the back so leave enough space in front of and behind the case and ensure that any air coming out can flow freely away from the case. Laptops vary but often the intake is on the bottom which can be a real problem; hard surfaces are usually ok due to the rubber feet, but soft surfaces like clothes or a bed can completely suffocate the intake.
+**Poor ventilation**: Ventilation (moving air in and out of the case) directly effects airflow inside the case; if fans can't pull fresh air in or push hot air out, it's going to build up regardless of how well it flows. The first step is ensuring that the intake/outake fans are not blocked. For desktops, the intake tends to be in the front and the exhaust in the back so leave enough space in front of and behind the case and ensure that any air coming out can flow freely away from the case. Laptops vary but often the intake is on the bottom which can be a real problem; hard surfaces are usually ok due to the rubber feet, but soft surfaces like clothes or a bed can completely suffocate the intake.
 
 
 ![TODO: more on poor ventilation](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
@@ -693,7 +711,7 @@ Graphics card errors = reinstall
 
 ![TODO: "Insufficient Memory" disk cache](https://d30y9cdsu7xlg0.cloudfront.net/png/42732-200.png)
 
-******
+<!----------------------------------------------------------------------------->
 
 # Optimizations #
 
@@ -708,7 +726,7 @@ If all else fails...
   * Settings
   * Adjust For Performance
 
-******
+<!----------------------------------------------------------------------------->
 
 # Software Appendix #
 
@@ -737,26 +755,26 @@ If all else fails...
   - Speccy
   - 
 
-******
+<!----------------------------------------------------------------------------->
 
 # Sharing #
 
 ## License ##
 
 This guide it is released under _CC BY-NC-SA v4.0_.
-What does that mean?
+What does that mean to the layman?
 
 _CC_ = "Creative Commons".
 A group of licenses aimed at promoting sharing and creativity.
 
 _BY_ = "Attribution".
-Give credit for this guide to its creator.
+Give credit for this guide to its creator(s) and contributor(s).
 
 _NC_ = "NonCommercial".
 Don't use this guide for commercial purposes.
 
 _SA_ = "ShareAlike".
-If you want to edit this guide or build upon it, go ahead. But if you do, the new thing you create must be under this license.
+If you want to edit this guide or build upon it, go ahead. But if you do, the end result must also be under this license.
 
 So the longwinded name of the license is:
 _Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International_.
@@ -764,13 +782,36 @@ _Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International_.
 
 ## Contributing ##
 
-I would be _elated_ if people wanted to share their knowledge and help expanding this guide. The goal is not to show off what I know, it is supposed to be as helpful as possible.
+I would be _elated_ if people wanted to share their knowledge and help expanding this guide. The goal is not to show off what I know, it is to be as helpful as possible.
 
 To contribute, you can just submit a pull request, add an issue, or if you don't know how to do those things: _email me_!
 
 If you contribute, I will add your handle to "Contributors" (unless you don't want me to). If you want to become a co-author, you have to _ask_, as well as providing a decent amount of contributions and committing (pardon the pun) to do things like answer issues....things an author does more than just add content.
 
 I would request that you _please_ consider contributing or co-authoring before forking (covered below). The point of this guide is to share knowledge. Having multiple versions doesn't ensure that people reading it will get all of it. At the very least, there is no harm in asking/suggesting. If we disagree, then by all means, fork away.
+
+
+### Guidelines ###
+
+If you decide to contribute, understanding these guidelines will make it easier on everyone.
+
+__Ensure each heading is unique.__
+Each heading receives a permalink that is based on its text (so "CCleaner" becomes "#ccleaner"). Obviously two sections can't share the same permalink so make new ones different. If you truly think that your new section is more logical to have that name than the existing one, the old one can be changed but this should be avoided as it will confuse people who may have boomarked the permalink pointing to the old location.
+
+__Try to build before submitting major changes.__
+The build process is very automated once you get it set up and instructions are provided in the project Github repo mentioned under [Links and Downloads](#links-and-downloads). Building is not absolutely necessary but doing it will help catch things like invalid section references. You also get to take a look at what it will look like finished, which can sometimes help show if something needs to be tweaked or not before submitting.
+
+__Only authors can submit changes to the `gh-pages` branch.__
+Ultimately it's up to the authors on what the website should portray. In the early stages they may have it updated with every commit. Later on they may want to wait for patch bumps, or even major versions. The point is: to make things less confusing, anyone should be able to submit changes to the repo, but only the authors should decide on when those changes go live.
+
+__Do not write in first person.__
+So no "I" or "my", mostly because this guide is/can be written by multiple people. It's also just good writing style if what you are writing is not an opinion piece. So instead of "From my experience" use phrases like "There are cases when".
+
+__Write concisely.__
+This guide is long enough as it is, try to say only how many words need to be said and no more. The goal is to write for people who will not find the content interesting -to be as accessible as possible. If you _do_ want to go off on a tangent, indent it 4 spaces which will turn it into a blockquote; everything in the blockquote should be extra information, i.e. skipping it should not leave the reader confused.
+
+__When writing, have Fun!__
+This guide is meant to be informative, but it's also meant to be easy to read and _fun_ to create. So it will never read like a Wikipedia article nor is it intended to. There can be jokes and internet slang and such.
 
 
 ## Forks ##
@@ -817,3 +858,8 @@ If the guide you are modifying is a modification itself, there will already be a
         
 
 Lastly, remember that the "NoCommercial" clause applies to any derivitive works as well.
+
+
+## Misc Credits ##
+
+Logo Icon is [Speedometer](https://thenounproject.com/term/speedometer/22554/) by Ruud Smit from the Noun Project.

@@ -1,83 +1,113 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset='UTF-8'>
-<title>
-Solutions for a Slow PC - Solutions for a Slow PC
-</title>
-<style>
-html, body {width:100%;height:100%;margin:0;}
-.markdown-body {min-width: 200px;max-width: 790px;margin: 0 auto;padding: 30px;}
-#solutions-for-a-slow-pc {font-size: 4em}
-#table-of-contents + ul {list-style: circle;}
-</style>
-</head>
-<body><link rel='stylesheet' href='styles/github-markdown-css/github-markdown.css'>
-<style>
-.site-nav {border-bottom: 1px solid #5A5A5A;line-height: 1.6;font-family: 'Helvetica Neue','Helvetica','Open Sans',sans-serif;font-size: 1.2em;}
-.site-nav ul {padding: 0px 20px;display: flex;justify-content: space-between;list-style: outside none none;max-width: 955px;margin: 0px auto;}
-.site-nav a {color: #6A6A6A;text-decoration:none;font-weight:400;}
-.site-nav a[href='index.html']{color:black;}
-@media screen and (max-width: 800px) {.site-nav ul {flex-direction: column;text-align: center;}}
-</style>
-<nav class='site-nav'>
-<ul>
-<li><a href='index.html'>readme</a></li>
-<li><a href='solutions.html'>solutions</a></li>
-<li><a href='common_causes.html'>common causes</a></li>
-<li><a href='optimizations.html'>optimizations</a></li>
-<li><a href='software_appendix.html'>software appendix</a></li>
-<li><a href='sharing.html'>sharing</a></li>
-</ul>
-</nav>
-<article class='markdown-body'>
-<h1 id="solutions-for-a-slow-pc">Solutions for a Slow PC <a class="header-anchor" href="#solutions-for-a-slow-pc" aria-hidden="true">¶</a></h1>
-<pre><code>Version: 0.1
-Date: 2015-07-23
-Author: notbryant &lt;notbryant@gmail.com&gt;
-Contributors: N/A
-Copyright: 2015 Jon Petraglia
-</code></pre>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License" /></p>
-<h2 id="table-of-contents">Table of Contents <a class="header-anchor" href="#table-of-contents" aria-hidden="true">¶</a></h2>
-<ul>
-<li><a href="#purpose">Purpose</a></li>
-<li><a href="#using">Using</a></li>
-<li><a href="#no-warranty">No Warranty</a></li>
-<li><a href="#links-and-downloads">Links and Downloads</a></li>
-</ul>
-<hr />
-<h2 id="purpose">Purpose <a class="header-anchor" href="#purpose" aria-hidden="true">¶</a></h2>
-<p>This is a guide/reference on how to <em>troubleshoot and (hopefully) solve things that cause a PC to run slow</em>. There were several motivations for compiling it.</p>
-<p><strong>An ordered guide for fixing others' PCs.</strong>
-Being oft employed as the &quot;friends &amp; family tech support&quot;, one finds an organized reference for the process of &quot;fixing&quot; a slow computer very helpful. As a guide, this is most useful if it isn't obvious what the problem for the slowdown is, which is typical when it's not your own PC.</p>
-<p><strong>A reference for fixing one's own PC.</strong>
-This makes a good reference when <em>your</em> PC slows down as well. Am I remembering everything I can do to help its performance? What haven't I done in a while?</p>
-<p><strong>Educate the masses.</strong>
-The goal is for people who are &quot;bad with computers&quot; to be able to at least read this and understand it, and for people who are &quot;not tech savvy&quot; to be able to perform most of the steps. In short, this guide should be able to help you solve some problems without having to go to your family tech person or GeekSquid.</p>
-<p><strong>Inform the masses.</strong>
-One last lofty goal is to give non-tech savvy people a glimpse of just what goes in to maintaining a PC. That it's not &quot;magic&quot; and we that are &quot;good with computers&quot; aren't wizards (as much as we'd like to be), and that being smart with computers does not mean that you have the instant fix to everything. Very often, it's a learning process. In short, the goal is to give people an appreciation for the tech people in their lives who have spent years learning stuff like this. <em>Thank him/her and buy him/her a beer.</em></p>
-<h2 id="using">Using <a class="header-anchor" href="#using" aria-hidden="true">¶</a></h2>
-<p>Though this guide is ordered, it can also be used just as a reference, meaning you can do <em>any steps you want in any order you want</em>. You can even hop between groups: check the memory first, then defragment. It's a guide, not law. They are ordered as such because of the following logic:</p>
-<ul>
-<li>I put <strong>more common</strong> solutions first</li>
-<li>I put <strong>always useful</strong> tasks first (i.e. good things to do even if it is not the cause of the slowdown)</li>
-<li>I grouped <strong>long tasks</strong> together, so they can be run simultaneously</li>
-<li>I tried to <strong>minimize overall time</strong> when possible; for example: putting defragmenting and scanning <em>after</em> clearing disk space.</li>
-</ul>
-<p>&quot;Difficulty level&quot; refers to how difficult it is for the average user, with <strong>EASY</strong> meaning anyone can do it and <strong>HARD</strong> meaning that it requires a decent amount of computer proficiency. Furthermore, more difficult tasks sometimes mean that using the tool incorrectly has greater risks.</p>
-<p>All mentioned tools (softwares) will have an entry in the <a href="#software-appendix">Software Appendix</a>. Unless otherwise noted, all software tools in this guide are <em>freeware</em>.</p>
-<h2 id="no-warranty">No Warranty <a class="header-anchor" href="#no-warranty" aria-hidden="true">¶</a></h2>
-<p>THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether as a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs, nor is it guaranteed to address <em>every</em> issue.</p>
-<h2 id="links-and-downloads">Links and Downloads <a class="header-anchor" href="#links-and-downloads" aria-hidden="true">¶</a></h2>
-<p>Below are the different ways you can read/download this guide.</p>
-<ul>
-<li><a href="http://notbryant.github.io/slow-pc-guide">on the Web</a></li>
-<li><a href="https://github.com/notbryant/slow-pc-guide">on GitHub, in MarkDown</a></li>
-<li><a href="https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.epub">as an EPUB e-book</a></li>
-<li><a href="https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.pdf">as a PDF document</a></li>
-</ul>
 
-</article>
+<head>
+    <meta charset='UTF-8'>
+    <title>Solutions for a Slow PC</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.png" />
+    <link rel='stylesheet' href='themes/github-markdown-css/github-markdown.css'>
+    <link rel='stylesheet' href='style.css'>
+
+</head>
+
+<body>
+
+    <nav class='site-nav'>
+        <ul>
+            <li>
+                <a>
+                    <img src='favicon.png'>
+                    <strong>Solutions for a Slow PC</strong>
+                </a>
+            </li>
+            <li>
+                <a href='index.html' class='active'>about</a>
+            </li>
+
+            <li>
+                <a href='solutions.html' class=''>solutions</a>
+            </li>
+
+            <li>
+                <a href='common_causes.html' class=''>common causes</a>
+            </li>
+
+            <li>
+                <a href='optimizations.html' class=''>optimizations</a>
+            </li>
+
+            <li>
+                <a href='software_appendix.html' class=''>software appendix</a>
+            </li>
+
+            <li>
+                <a href='sharing.html' class=''>sharing</a>
+            </li>
+        </ul>
+    </nav>
+    <a class="ribbon" href="https://github.com/notbryant/slow-pc-guide"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+        alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+    <article class='markdown-body'>
+        <h1>Solutions for a Slow PC</h1>
+        <p><img src="logo.png" alt="Logo" class="logo" /></p>
+        <pre><code>Title: Solutions for a Slow PC
+Version: 0.2
+Modified: 2015-08-10
+Published: 2015-07-23
+Creators: Jon Petraglia &lt;notbryant@gmail.com&gt;
+License: CC BY-NC-SA 4.0 License
+Copyright: 2015 Jon Petraglia</code></pre>
+        <p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="CC BY-NC-SA 4.0" class="creativecommons" /></p>
+        <hr class='pagebreak'>
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="index.html#solutions-for-a-slow-pc">Solutions for a Slow PC</a>
+                <ul>
+                    <li><a href="index.html#purpose">Purpose</a></li>
+                    <li><a href="index.html#using">Using</a></li>
+                    <li><a href="index.html#no-warranty">No Warranty</a></li>
+                    <li><a href="index.html#links-and-downloads">Links and Downloads</a></li>
+                </ul>
+            </li>
+        </ul>
+        <hr class='pagebreak'>
+        <h2>Purpose</h2>
+        <p>This is a guide/reference on how to <em>troubleshoot and (hopefully) solve things that cause a PC to run slow</em>. There were several motivations for compiling it.</p>
+        <p><strong>An ordered guide for fixing others' PCs.</strong> Being oft employed as the &quot;friends &amp; family tech support&quot;, one finds an organized reference for the process of &quot;fixing&quot; a slow computer very helpful. As a guide,
+            this is most useful if it isn't obvious what the problem for the slowdown is, which is typical when it's not your own PC.</p>
+        <p><strong>A reference for fixing one's own PC.</strong> This makes a good reference when <em>your</em> PC slows down as well. Am I remembering everything I can do to help its performance? What haven't I done in a while?</p>
+        <p><strong>Educate the masses.</strong> The goal is for people who are &quot;bad with computers&quot; to be able to at least read this and understand it, and for people who are &quot;not tech savvy&quot; to be able to perform most of the steps. In
+            short, this guide should be able to help you solve some problems without having to go to your family tech person or GeekSquid.</p>
+        <p><strong>Walk in our shoes.</strong> One last lofty goal is to give non-tech savvy people a glimpse of just what goes in to maintaining a PC. That it's not &quot;magic&quot; and we that are &quot;good with computers&quot; aren't wizards (as much
+            as we'd like to be), and that being smart with computers does not mean that you have the instant fix to everything. Very often, it's a learning process. In short, the goal is to give people an appreciation for the tech people in their lives
+            who have spent years learning stuff like this. <em>Thank him/her and buy him/her a beer.</em></p>
+        <h2>Using</h2>
+        <p>Though this guide is ordered, it can also be used just as a reference, meaning you can do <em>any steps you want in any order you want</em>. You can even hop between groups: check the memory first, then defragment. It's a guide, not law. They
+            are ordered as such because of the following logic:</p>
+        <ul>
+            <li>I put <strong>more common</strong> solutions first</li>
+            <li>I put <strong>always useful</strong> tasks first (i.e. good things to do even if it is not the cause of the slowdown)</li>
+            <li>I grouped <strong>long tasks</strong> together, so they can be run simultaneously</li>
+            <li>I tried to <strong>minimize overall time</strong> when possible; for example: putting defragmenting and scanning <em>after</em> clearing disk space.</li>
+        </ul>
+        <p>&quot;Difficulty level&quot; refers to how difficult it is for the average user, with <strong>EASY</strong> meaning anyone can do it and <strong>HARD</strong> meaning that it requires a decent amount of computer proficiency. Furthermore, more
+            difficult tasks sometimes mean that using the tool incorrectly has greater risks.</p>
+        <p>All mentioned tools (softwares) will have an entry in the <a href="software_appendix.html#software-appendix">Software Appendix</a>. Unless otherwise noted, all software tools in this guide are <em>freeware</em>.</p>
+        <h2>No Warranty</h2>
+        <p>THERE IS NO WARRANTY WITH THIS GUIDE. You are responsible for whatever results happen, whether they be a result of following this guide or if you diverge from it. It should also go without saying that this is not an end-all guide to slow PCs nor
+            is it guaranteed to address <em>every</em> issue.</p>
+        <h2>Links and Downloads</h2>
+        <p>This guide is available <strong><a href="http://notbryant.github.io/slow-pc-guide">on the Web</a></strong>.</p>
+        <p>You can also download it in a variety of other formats:</p>
+        <ul>
+            <li><a href="https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.epub">as an EPUB e-book</a></li>
+            <li><a href="https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.pdf">as a PDF document</a></li>
+            <li><a href="https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.md">as a standalone HTML file</a></li>
+            <li><a href="https://raw.githubusercontent.com/notbryant/slow-pc-guide/gh-pages/ebook/Solutions%20for%20a%20slow%20PC.md">as a standalone MarkDown file</a></li>
+        </ul>
+        <p>And lastly, the guide is maintained on <a href="https://github.com/notbryant/slow-pc-guide">GitHub</a>. Check the section <a href="sharing.html#sharing">Sharing</a> for things like the license and how to contribute.</p>
+
+    </article>
 </body>
+
 </html>
