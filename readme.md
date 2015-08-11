@@ -7,13 +7,6 @@ Authors:
 Contributors:
 License: CC BY-NC-SA v4.0
 Copyright: 2015 Jon Petraglia
-Chapters:
-  - Readme
-  - Solutions
-  - Common Causes
-  - Optimizations
-  - Software Appendix
-  - Sharing
 ---
 
 # Solutions for a Slow PC #

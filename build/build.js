@@ -76,7 +76,9 @@ try {
 //////////////////// Setup the environment ////////////////////
 
 
-process.chdir(__dirname + "/..");
+var buildConfig = require(__dirname + "/config.json");
+
+process.chdir(path.resolve(__dirname, buildConfig.working_dir));
 
 // Paths
 var buildDir = __dirname,
@@ -110,15 +112,12 @@ var buildDir = __dirname,
 
 // 0. Read meta frontmatter, make output directories
 new Promise(function(resolve, reject) {
-  fs.readFile("readme.md", "utf-8", vow(resolve, reject));
+  fs.readFile(buildConfig.meta_file, "utf-8", vow(resolve, reject));
 }).then(function(fileData) {
   var fm = frontmatter(fileData).attributes;
   Object.keys(fm).forEach(function(key) {
     meta[key.toLowerCase()] = fm[key];
   });
-  meta.chapters = meta.chapters.map(function(chapter) {
-    return chapter.toLowerCase().replace(/ /g, '_')+".md";
-  })
   return mkdirp(ebookDir);
 })
 // 1. Read file contents
@@ -136,7 +135,7 @@ new Promise(function(resolve, reject) {
 })
 // 2. Read ALL the chapters! Also generate TocIndex at the same time
 .then(function() {
-  return Promise.all(meta.chapters.map(function(filename) {
+  return Promise.all(buildConfig.files.map(function(filename) {
     return new Promise(function(resolve, reject) {
       fs.readFile(filename, {encoding: 'utf8'}, function(err, data) {
         if(err) return reject(err);
@@ -156,7 +155,7 @@ new Promise(function(resolve, reject) {
 
   return Promise.all(fileContentsArray.map(function(fileContents, index) {
     return new Promise(function(resolve, reject) {
-      var filename = readme2index(meta.chapters[index], ".html");
+      var filename = readme2index(buildConfig.files[index], ".html");
       fs.writeFile(
         path.join(websiteDir, filename),
         wrapHTML(insertToC(fileContents, false), filename),
@@ -313,8 +312,8 @@ function wrapHTML(md, originalFilename) {
     opts.heading = "\n<nav class='site-nav'>\n" + 
       "<ul>\n" + 
       "<li>\n<a>\n" + "<img src='" + opts.favicon + "'>\n<strong>"+meta.title+"</strong>\n</a>\n</li>\n" + 
-      meta.chapters.map(function(filename, i) {
-        return ((false && i==Math.round(meta.chapters.length/2)) ? "</ul><ul>" : "") +
+      buildConfig.files.map(function(filename, i) {
+        return ((false && i==Math.round(buildConfig.files.length/2)) ? "</ul><ul>" : "") +
         template("<li>\n<a href='{{href}}' class='{{class}}'>{{title}}</a>\n</li>\n", {
           href: readme2index(filename, ".html"),
           title: readme2other(filename, "about").replace(/_/g, " ").toLowerCase(),

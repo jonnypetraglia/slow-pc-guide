@@ -1,0 +1,12 @@
+{
+  "working_dir": "..",
+  "meta_file": "readme.md",
+  "files": [
+    "readme.md",
+    "solutions.md",
+    "common_causes.md",
+    "optimizations.md",
+    "software_appendix.md",
+    "sharing.md"
+  ]
+}
