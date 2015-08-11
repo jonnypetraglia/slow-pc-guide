@@ -14,22 +14,21 @@ var plugins = {
 
 
 function adjustPagebreaks(md) {
-  var oldHrOverride = md.renderer.rules.hr;
-  md.renderer.rules.hr = function(tokens, idx, options, env, self) {
-    if(tokens[idx-1].type == "hr" || (idx < tokens.length && tokens[idx+1].type == "hr")) {
-      if(cls = tokens[idx].attrIndex('class') >= 0) {
-        if(token[idx].attr[cls][1].indexOf('pagebreak') < 0)
-          tokens[idx].attr[cls][1] += ' pagebreak';
-      } else {
-        tokens[idx].attrPush(['class', 'pagebreak']);
-      }
-    }
-    if (oldHrOverride)
-      return oldHrOverride.apply(self, arguments);
+  var oldBlockOverride = md.renderer.rules.html_block;
+  md.renderer.rules.html_block = function(tokens, idx, options, env, self) {
+    if(adjustPagebreaks.RE.test(tokens[idx].content))
+      tokens[idx].content = "<hr class='pagebreak'>\n";
+    if(oldBlockOverride)
+      return oldBlockOverride.apply(self, arguments);
     else
       return self.renderToken.apply(self, arguments);
   };
 }
+adjustPagebreaks.RE = /<!---*-->/;
+adjustPagebreaks.HTML = "\n\n<!--" + Array(80+1-4-3).join('-') + "-->\n\n";
+if(!adjustPagebreaks.RE.test(adjustPagebreaks.HTML))
+  throw new Error("Pagebreak HTML does not match the pagebreak RE");
+
 
 // A plugin for markdown-it that adjust permalinks to specify their chapter based on TocHash
 //    Example: '#ccleaner' => 'solutions.html#ccleaner'

@@ -5,11 +5,13 @@
   "main": "book.js",
   "dependencies": {
     "ebrew": "^0.1.1",
+    "epub-builder": "git+ssh://git@gitlab.com/notbryant/epub-builder.git#0.1",
     "imageurl-base64": "^1.0.0",
     "markdown-it": "^4.4.0",
     "markdown-it-anchor": "^2.2.0",
     "markdown-it-title": "^1.0.3",
     "markdown-toc": "^0.11.5",
+    "mime-types": "^2.1.4",
     "mkdirp": "^0.5.1",
     "promiscuous": "^0.6.0",
     "sync-request": "^2.0.1",
@@ -18,7 +20,8 @@
   "author": "notbryant",
   "license": "CC BY-NC-SA 4.0",
   "optionalDependencies": {
-    "js-beautify": "^1.5.10"
+    "js-beautify": "^1.5.10",
+    "html2png": "^1.1.2"
   },
   "scripts": {
     "build": "node build/build.js",

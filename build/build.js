@@ -66,9 +66,10 @@ var mdit_plugins = require(__dirname + '/markdown-it_plugins.js'),
 // npm packages
 var mkdirp = require('mkdirp')
   , Promise = (global.Promise || require('promiscuous'))
-  , ebrew = require('ebrew')
+  , Epub = require("epub-builder")
   , markdown_it = require('markdown-it')
   , wkhtmltopdf = require('wkhtmltopdf', {command: wkhtmltopdf_cmd})
+  , mimeTypes = require('mime-types')
   , mdtoc = function(md) { return require('markdown-toc')(md, {slugify: slugify}) }
   , beautify = function(x) { return x};
 try {
@@ -89,7 +90,6 @@ var buildDir = __dirname,
     ebookDir = path.resolve(websiteDir, "ebook"),
 // Useful vars
     meta = require(__dirname + "/meta.json")
-    pagebreak = "\n\n" + Array(20+1).join('*') + "\n" + Array(20+1).join('*') + "\n\n",
     tocIndex = TocIndex({specialSlugs: ['table-of-contents']})
 // Styles available for HTML exporting
   themes = {
@@ -102,6 +102,7 @@ var buildDir = __dirname,
 , fileContents = {
   theme:          path.join(websiteDir, "themes", themes[chosenTheme]),
   template:       path.join(buildDir, "templ.html"),
+  title_template: path.join(buildDir, "title_templ.html"),
   "style.css":    path.join(buildDir, "style.css"),
   "logo.png":     path.join(buildDir, "..", "logo.png"),
   "favicon.png":  path.join(buildDir, "favicon.png"),
@@ -126,7 +127,7 @@ new Promise(function(resolve, reject) {
         {encoding: isImage ? null : 'utf-8'},
         vow(resolve, reject));
     }).then(function(data) {
-      fileContents[filename] = isImage ? base64img(data, path.extname(filename)) : data;
+      fileContents[filename] = isImage ? base64img(data, mimeTypes.lookup(filename)) : data;
     });
   }));
 })
@@ -182,12 +183,10 @@ new Promise(function(resolve, reject) {
 })
 // 4. Generate ebooks
 .then(function(fileContentsArray) {
-  var md = insertToC(fileContentsArray.join(pagebreak), true);
-
   return Promise.all(Object.keys(generate).map(function(filetype) {
     if(!argv.contains(filetype)) return Promise.resolve();
     console.log("Generating " + filetype);
-    return generate[filetype](md, path.join(ebookDir, meta.title+"."+filetype));
+    return generate[filetype](fileContentsArray, path.join(ebookDir, meta.title+"."+filetype));
   }));
 })
 .then(function() {
@@ -201,17 +200,20 @@ new Promise(function(resolve, reject) {
 //////////////////// Filetype generation ////////////////////
 
 var generate = {
-  md: function(md, filename) {
+  md: function(mdArray, filename) {
+    var md = insertToC(mdArray.join(mdit_plugins.pagebreak.HTML), true);
     return new Promise(function(resolve, reject) {
       fs.writeFile(filename, md, vow(resolve, reject))
     })
   },
-  html: function(md, filename) {
+  html: function(mdArray, filename) {
+    var md = insertToC(mdArray.join(mdit_plugins.pagebreak.HTML), true);
     return new Promise(function(resolve, reject) {
       fs.writeFile(filename, wrapHTML(md), vow(resolve, reject))
     })
   },
-  pdf: function(md, filename) {
+  pdf: function(mdArray, filename) {
+    var md = insertToC(mdArray.join(mdit_plugins.pagebreak.HTML), true);
     return new Promise(function(resolve, reject) {
       wkhtmltopdf(wrapHTML(md), { output: filename }, function (code, signal) {
         if(code || signal) reject(code || signal);
@@ -219,9 +221,39 @@ var generate = {
       });
     });
   },
-  epub: function(md, filename) {
+  epub: function(mdArray, filename) {
+    var titleMd = mdArray[0].split(mdit_plugins.pagebreak.RE)[0];
     return new Promise(function(resolve, reject) {
-      ebrew.generate(buildDir + "/meta.json", filename, vow(resolve, reject));
+      var mdit = mdit_plugins(markdown_it('commonmark'), true);
+
+      var titleHtml = template(fileContents['title_template'], {content: mdit.render(titleMd)});
+
+      // Remove titleMd portion from Readme.md
+      mdArray[0] = mdArray[0].substr(titleMd.length).trim();
+      mdArray[0] = mdArray[0].substr(mdArray[0].indexOf("\n")).trim();
+      mdArray[0] = "# Preface #\n" + mdArray[0];
+
+      try {
+        require('html2png')({ width: 600, height: 776, browser: 'phantomjs'})
+          .render(titleHtml, vow(resolve, reject))
+      } catch(e) {
+        console.log("WARNING: html2png not loaded, cover image will not be included");
+        resolve();
+      }
+    }).then(function(coverPage) {
+      return new Promise(function(resolve, reject) {
+        var epub = Epub.fromMarkdown(
+          meta,
+          mdArray,
+          {
+            workingDir: websiteDir,
+            tocInText: true,
+            coverImage: coverPage,
+            titlePage: titleMd
+          }
+        );
+        epub.build(filename, vow(resolve, reject));
+      }); //new Promise
     })
   }
 };
@@ -236,7 +268,7 @@ function insertToC(md, firsth1) {
 
   var toc = "## Table of Contents ##\n\n" + 
           //(tocJson ? tocJson.content : mdtoc(md, {firsth1: false}).content) + pagebreak;
-          mdtoc(md, {firsth1: firsth1}).content + pagebreak;
+          mdtoc(md, {firsth1: firsth1}).content + mdit_plugins.pagebreak.HTML;
   return md.slice(0, ind) + toc + md.slice(ind);
 }
 

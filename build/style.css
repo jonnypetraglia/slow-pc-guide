@@ -4,11 +4,9 @@ html, body {
   margin: auto;
 }
 
-.markdown-body hr.pagebreak + hr.pagebreak {
-  page-break-after: always;
-}
-.markdown-body hr.pagebreak {
+.markdown-body .pagebreak {
   visibility: hidden;
+  page-break-after: always;
 }
 .markdown-body {
   min-width: 200px;
