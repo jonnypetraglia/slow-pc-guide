@@ -42,7 +42,7 @@ Each heading receives a permalink that is based on its text (so "CCleaner" becom
 __Try to build before submitting major changes.__
 The build process is very automated once you get it set up and instructions are provided in the project Github repo mentioned under [Links and Downloads](#links-and-downloads). Building is not absolutely necessary but doing it will help catch things like invalid section references. You also get to take a look at what it will look like finished, which can sometimes help show if something needs to be tweaked or not before submitting.
 
-__Only authors can submit changes to the `gh_pages` branch.__
+__Only authors can submit changes to the `gh-pages` branch.__
 Ultimately it's up to the authors on what the website should portray. In the early stages they may have it updated with every commit. Later on they may want to wait for patch bumps, or even major versions. The point is: to make things less confusing, anyone should be able to submit changes to the repo, but only the authors should decide on when those changes go live.
 
 __Do not write in first person.__

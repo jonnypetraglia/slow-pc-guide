@@ -12,18 +12,18 @@ Building is done simply by running the command: `npm run build`.
 
 By default it will build all files. You can also pass arguments to build specific items:
 
-  - gh_pages = Create the GitHub pages site
-  - skipassets = Skip copying static files like images and stylesheets if building gh_pages
+  - gh-pages = Create the GitHub pages site
+  - skipassets = Skip copying static files like images and stylesheets if building gh-pages
   - md = Create the standalone MarkDown file
   - html = Create the standalone HTML file
   - pdf = Create the PDF document
   - epub = Create the EPUB ebook
 
-So for example, `npm run build gh_pages html pdf` would generate the Github Pages, the HTML file and the PDF file.
+So for example, `npm run build gh-pages html pdf` would generate the Github Pages, the HTML file and the PDF file.
 
 There are also some other commands provided for convenience:
 
-  - `npm run website` = equivalent to `npm run build gh_pages`
+  - `npm run website` = equivalent to `npm run build gh-pages`
   - `npm run ebook` = equivalent to `npm run build md html pdf epub`
 
 
@@ -34,7 +34,7 @@ The command `npm run clean` will remove all files output by the build process.
 
 ## Deploying the web version ##
 
-The deploy.sh shell script is really all you need to push changes to the gh_pages branch.
+The deploy.sh shell script is really all you need to push changes to the gh-pages branch.
 Really only the author(s) should do this as they are the ones who ultimately decide what the
 book should look like, including the web version. (Limiting the people who have access
 also cuts down on a lot of confusion.)
@@ -52,15 +52,15 @@ style- creating a Git pre-push script with the following might be helpful:
 
 Here I'll go into how the build method is and why it is that way. For starters:
 
-  * There are basically 2 different builds going on: **gh_pages** and the **ebooks**.
+  * There are basically 2 different builds going on: **gh-pages** and the **ebooks**.
   * The Table of Contents is calculated and spliced in for both types.
 
 
 
-## gh_pages ##
+## gh-pages ##
 
 
-gh_pages is really just two parts: rendering & wrapping Markdown into HTML, and copying the assets along with it.
+gh-pages is really just two parts: rendering & wrapping Markdown into HTML, and copying the assets along with it.
 
 A nav bar is inserted at the top of each page for navigation between sections.
 

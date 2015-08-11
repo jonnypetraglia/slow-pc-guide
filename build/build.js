@@ -31,7 +31,7 @@ if(!wkhtmltopdf_cmd) {
 
 //////////////////// cli-args ////////////////////
 
-var argv = ['gh_pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
+var argv = ['gh-pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
 if(process.argv.indexOf("-d") >= 0) {
   process.argv.splice(process.argv.indexOf("-d"), 1);
   fs.writeFile = function(f, d, callback) { callback(); };
@@ -147,8 +147,8 @@ new Promise(function(resolve, reject) {
 })
 // 3. Create the Github Pages versions
 .then(function(fileContentsArray) {
-  if(!argv.contains('gh_pages')) return Promise.resolve(fileContentsArray);
-  console.log("Generating gh_pages");
+  if(!argv.contains('gh-pages')) return Promise.resolve(fileContentsArray);
+  console.log("Generating gh-pages");
 
   return Promise.all(fileContentsArray.map(function(fileContents, index) {
     return new Promise(function(resolve, reject) {

@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "node build/build.js",
-    "website": "npm run build gh_pages",
+    "website": "npm run build gh-pages",
     "ebook": "npm run build md html pdf epub",
     "clean": "rm dist/*.* 2> /dev/null; rm dist/ebook/* 2> /dev/null; echo Cleaned dist"
   }
