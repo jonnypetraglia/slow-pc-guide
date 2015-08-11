@@ -5,7 +5,7 @@
 ```
 ---
 Title: Solutions for a Slow PC
-Version: 0.1
+Version: 0.2
 Modified: 2015-08-10
 Published: 2015-07-23
 Creators: Jon Petraglia <notbryant@gmail.com>

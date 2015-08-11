@@ -1,12 +1,17 @@
 {
   "name": "slow-pc-guide",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A guide/reference on how to troubleshoot and (hopefully) solve things that cause a PC to run slow.",
-  "main": "book.js",
+  "license": "CC-BY-NC-SA-4.0",
+  "author": "Jon Petraglia <notbryant@gmail.com> (http://qweex.com)",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/notbryant/slow-pc-guide.git"
+  },
   "dependencies": {
     "clone": "^1.0.2",
     "ebrew": "^0.1.1",
-    "epub-builder": "git+ssh://git@gitlab.com/notbryant/epub-builder.git#0.1",
+    "epub-builder": "git+ssh://git@gitlab.com/notbryant/epub-builder.git#0.1.2",
     "front-matter": "^1.0.0",
     "imageurl-base64": "^1.0.0",
     "markdown-it": "^4.4.0",
@@ -20,8 +25,6 @@
     "sync-request": "^2.0.1",
     "wkhtmltopdf": "^0.1.5"
   },
-  "author": "notbryant",
-  "license": "CC BY-NC-SA 4.0",
   "optionalDependencies": {
     "js-beautify": "^1.5.10",
     "html2png": "^1.1.2"

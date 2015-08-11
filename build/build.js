@@ -43,6 +43,8 @@ if(process.argv.length > 2) {
       throw(new Error("Invalid argument: " + val));
     return val;
   });
+} else {
+  argv.splice(argv.indexOf("skipassets"), 1)
 }
 argv.contains = function(thing) { return this.indexOf(thing) >= 0};
 
