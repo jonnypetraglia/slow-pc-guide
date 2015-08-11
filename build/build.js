@@ -3,13 +3,6 @@
 var fs = require('fs')
   , path = require('path');
 
-  // ebrew requires that the markdown files be in the same folder as the JSON file.
-  // So let's monkeypatch the call to return the working directory
-var oldDirname = path.dirname;
-path.dirname = function(arg) {
-  return arg==buildDir + "/meta.json" ? process.cwd() : oldDirname(arg);
-};
-
 //////////////////// Find wkhtmltopdf ////////////////////
 
 var wkhtmltopdf_cmd;
@@ -224,7 +217,7 @@ var generate = {
   epub: function(mdArray, filename) {
     var titleMd = mdArray[0].split(mdit_plugins.pagebreak.RE)[0];
     return new Promise(function(resolve, reject) {
-      var mdit = mdit_plugins(markdown_it('commonmark'), true);
+      var mdit = mdit_plugins(markdown_it('commonmark'), tocIndex, true);
 
       var titleHtml = template(fileContents['title_template'], {content: mdit.render(titleMd)});
 
@@ -279,7 +272,7 @@ function wrapHTML(md, originalFilename) {
 
   // 1. Render the markdown
   var env = {}
-  var mdit = mdit_plugins(markdown_it('commonmark'), isAggregateFile);
+  var mdit = mdit_plugins(markdown_it('commonmark'), tocIndex, isAggregateFile);
   var pagehtml = mdit.render(md, env);
 
 

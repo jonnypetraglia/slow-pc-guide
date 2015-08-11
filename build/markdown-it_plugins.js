@@ -40,7 +40,7 @@ function adjustLinks(md, opts) {
     var hrefIndex = tokens[idx].attrIndex('href');
     if(hrefIndex >= 0 && tokens[idx].attrs[hrefIndex][1].indexOf("#") == 0) {
       var hrefTarget = tokens[idx].attrs[hrefIndex][1].substr(1);
-      var filename = tocIndex.get(hrefTarget);
+      var filename = opts.tocIndex.get(hrefTarget);
       if(filename && filename.length>0)
         tokens[idx].attrs[hrefIndex][1] = readme2index(filename, ".html") + "#" + hrefTarget;
     }
@@ -125,7 +125,7 @@ function renderPermalink(slug, opts, tokens, idx) {
 }
 
 
-module.exports = function(md, isAggregate) {
+module.exports = function(md, tocIndex, isAggregate) {
   md
     //.use(plugins.anchor, {permalink: true, permalinkSymbol: '#', renderPermalink: renderPermalink, siteTitle: meta.title})
     .use(plugins.title)
