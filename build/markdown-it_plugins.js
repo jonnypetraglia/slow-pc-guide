@@ -8,10 +8,25 @@ var plugins = {
   image: adjustImages,
   link: adjustLinks,
   pagebreak: adjustPagebreaks,
+  frontmatter: adjustFrontmatter,
   anchor: require('markdown-it-anchor'),
   title: require('markdown-it-title')
 };
 
+
+function adjustFrontmatter(md) {
+  var oldCodeOverride = md.renderer.rules.fence;
+  md.renderer.rules.fence = function(tokens, idx, options, env, self) {
+    var re = tokens[idx].content.match(/^---\n([\s\S]+)---\n$/);
+    if(re && re.length == 2)
+      tokens[idx].content = re[1].trim();
+
+    if(oldCodeOverride)
+      return oldCodeOverride.apply(self, arguments);
+    else
+      return self.renderToken.apply(self, arguments);
+  };
+}
 
 function adjustPagebreaks(md) {
   var oldBlockOverride = md.renderer.rules.html_block;
@@ -72,6 +87,8 @@ function adjustImages(md, opts) {
     }
     if(uri=="logo.png")
       tokens[idx].attrs.push(["class", "logo"]);
+    else if(uri.indexOf("https://i.creativecommons.org/") == 0)
+      tokens[idx].attrs.push(["class", "creativecommons"])
 
     if(oldLinkOpenOverride)
       return oldLinkOpenOverride.apply(self, arguments);
@@ -127,10 +144,10 @@ function renderPermalink(slug, opts, tokens, idx) {
 
 module.exports = function(md, tocIndex, isAggregate) {
   md
-    //.use(plugins.anchor, {permalink: true, permalinkSymbol: '#', renderPermalink: renderPermalink, siteTitle: meta.title})
     .use(plugins.title)
     .use(plugins.image, {base64: isAggregate})
-    .use(plugins.pagebreak);
+    .use(plugins.pagebreak)
+    .use(plugins.frontmatter);
   if(!isAggregate)
     md.use(plugins.link, {tocIndex: tocIndex});
   return md;

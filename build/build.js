@@ -27,7 +27,7 @@ if(!wkhtmltopdf_cmd) {
 var argv = ['gh-pages', 'skipassets', 'md', 'html', 'pdf', 'epub']
 if(process.argv.indexOf("-d") >= 0) {
   process.argv.splice(process.argv.indexOf("-d"), 1);
-  fs.writeFile = function(f, d, callback) { callback(); };
+  fs.writeFile = function(f, d, options, callback) { (callback || options)(); };
 }
 
 if(process.argv.length > 2) {
@@ -181,7 +181,7 @@ new Promise(function(resolve, reject) {
         fs.writeFile(
           path.join(websiteDir, filename),
           isImage ? unbase64(fileContents[filename]) : fileContents[filename],
-          isImage ? "base64" : "utf-8",
+          {encoding: isImage ? "base64" : "utf-8"},
           vow(resolve, reject)
         );
       });
@@ -243,6 +243,8 @@ var generate = {
       mdArray[0] = mdArray[0].substr(mdArray[0].indexOf("\n")).trim();
       mdArray[0] = "# Preface #\n" + mdArray[0];
 
+      // Remove the YAML '---' from the metadata on the title page
+      titleMd = titleMd.replace("```\n---", "```").replace("---\n```", "```")
       try {
         require('html2png')({ width: 600, height: 776, browser: 'phantomjs'})
           .render(titleHtml, vow(resolve, reject))
@@ -302,7 +304,7 @@ function wrapHTML(md, originalFilename) {
   };
   if(isAggregateFile) {
     opts.favicon = fileContents['favicon.png'];
-    opts.stylesheets = "<style>\n"+fileContents.theme+"</style>\n<style>\m"+fileContents['style.css']+"</style>\n";
+    opts.stylesheets = "<style>\n"+fileContents.theme+"</style>\n<style>\n"+fileContents['style.css']+"</style>\n";
     opts.stylesheets += "<style>\n" +
                           "#table-of-contents + ul > li { list-style-type: none; }\n" +
                           "#table-of-contents + ul > li > a { font-size: 1.5em; }\n" +

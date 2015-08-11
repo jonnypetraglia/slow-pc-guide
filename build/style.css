@@ -19,11 +19,12 @@ html, body {
   padding-bottom: 0 !important;
   margin-top: 0 !important;
 }
-.logo {
-  height: 20em;
-  width: 20em;
+.logo, .creativecommons {
   display: block;
   margin: auto;
+}
+.logo {
+  width: 80%;
 }
 .markdown-body h1 {
   font-size: 3em;
