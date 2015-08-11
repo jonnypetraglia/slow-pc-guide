@@ -6,11 +6,10 @@
 ---
 Title: Solutions for a Slow PC
 Version: 0.1
-Date: 2015-07-23
-Authors:
-  - notbryant <notbryant@gmail.com>
-Contributors:
-License: CC BY-NC-SA v4.0
+Modified: 2015-08-10
+Published: 2015-07-23
+Creators: Jon Petraglia <notbryant@gmail.com>
+License: CC BY-NC-SA 4.0 License
 Copyright: 2015 Jon Petraglia
 ---
 ```

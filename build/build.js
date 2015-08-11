@@ -64,6 +64,8 @@ var mkdirp = require('mkdirp')
   , wkhtmltopdf = require('wkhtmltopdf', {command: wkhtmltopdf_cmd})
   , mimeTypes = require('mime-types')
   , frontmatter = require('front-matter')
+  , uuid = require('node-uuid')
+  , clone = require('clone')
   , mdtoc = function(md) { return require('markdown-toc')(md, {slugify: slugify}) }
   , beautify = function(x) { return x};
 try {
@@ -77,6 +79,10 @@ try {
 
 
 var buildConfig = require(__dirname + "/config.json");
+if(!buildConfig.uuid) {
+  buildConfig.uuid = uuid.v4();
+  fs.writeFileSync(__dirname + "/config.json", JSON.stringify(buildConfig, null, '  '));
+}
 
 process.chdir(path.resolve(__dirname, buildConfig.working_dir));
 
@@ -247,7 +253,7 @@ var generate = {
     }).then(function(coverPage) {
       return new Promise(function(resolve, reject) {
         var epub = Epub.fromMarkdown(
-          meta,
+          meta2epub(meta),
           mdArray,
           {
             workingDir: websiteDir,
@@ -327,4 +333,34 @@ function wrapHTML(md, originalFilename) {
 
   // 3. Fill the template
   return beautify(template(fileContents.template, opts));
+}
+
+function meta2epub(meta) {
+  var epubMeta = clone(meta);
+  if(meta.author || meta.authors)
+    epubMeta.creator = stripEmail(meta.author) || meta.authors.map(stripEmail);
+  if(meta.contributors)
+    epubMeta.contributor = meta.contributors.map(stripEmail);
+  epubMeta.date_published = formatDate(meta.published);
+  epubMeta.date_modified = formatDate(meta.modified);
+  if(meta.copyright || meta.license) {
+    epubMeta.rights = [];
+    if(meta.copyright)
+      epubMeta.rights.push("Copyright ", meta.copyright);
+    if(meta.license)
+      epubMeta.rights.push(meta.license);
+    epubMeta.rights = epubMeta.rights.join(", ");
+  }
+  if(meta.version)
+    epubMeta.description = "Version " + meta.version;
+  ["author", "authors", "published", "modified", "copyright", "license", "version"]
+    .forEach(function(x) { delete epubMeta[x]});
+
+  epubMeta.identifier = buildConfig.uuid;
+  return epubMeta;
+
+  function stripEmail(aut) { return aut.substr(0, aut.lastIndexOf("<")).trim(); }
+  function formatDate(d) {
+    return  d.getFullYear() + "-" + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
 }
