@@ -6,6 +6,7 @@
   "dependencies": {
     "ebrew": "^0.1.1",
     "epub-builder": "git+ssh://git@gitlab.com/notbryant/epub-builder.git#0.1",
+    "front-matter": "^1.0.0",
     "imageurl-base64": "^1.0.0",
     "markdown-it": "^4.4.0",
     "markdown-it-anchor": "^2.2.0",

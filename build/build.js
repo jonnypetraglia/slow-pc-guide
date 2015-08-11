@@ -63,6 +63,7 @@ var mkdirp = require('mkdirp')
   , markdown_it = require('markdown-it')
   , wkhtmltopdf = require('wkhtmltopdf', {command: wkhtmltopdf_cmd})
   , mimeTypes = require('mime-types')
+  , frontmatter = require('front-matter')
   , mdtoc = function(md) { return require('markdown-toc')(md, {slugify: slugify}) }
   , beautify = function(x) { return x};
 try {
@@ -82,7 +83,7 @@ var buildDir = __dirname,
     websiteDir = path.resolve(process.cwd(), "dist"),
     ebookDir = path.resolve(websiteDir, "ebook"),
 // Useful vars
-    meta = require(__dirname + "/meta.json")
+    meta = {},
     tocIndex = TocIndex({specialSlugs: ['table-of-contents']})
 // Styles available for HTML exporting
   themes = {
@@ -107,9 +108,18 @@ var buildDir = __dirname,
 /////////////////////////////////////////////////////////////////
 
 
-// 0. Make output directories
+// 0. Read meta frontmatter, make output directories
 new Promise(function(resolve, reject) {
-  return mkdirp(ebookDir, vow(resolve, reject));
+  fs.readFile("readme.md", "utf-8", vow(resolve, reject));
+}).then(function(fileData) {
+  var fm = frontmatter(fileData).attributes;
+  Object.keys(fm).forEach(function(key) {
+    meta[key.toLowerCase()] = fm[key];
+  });
+  meta.chapters = meta.chapters.map(function(chapter) {
+    return chapter.toLowerCase().replace(/ /g, '_')+".md";
+  })
+  return mkdirp(ebookDir);
 })
 // 1. Read file contents
 .then(function() {
@@ -126,10 +136,11 @@ new Promise(function(resolve, reject) {
 })
 // 2. Read ALL the chapters! Also generate TocIndex at the same time
 .then(function() {
-  return Promise.all(meta.contents.map(function(filename) {
+  return Promise.all(meta.chapters.map(function(filename) {
     return new Promise(function(resolve, reject) {
       fs.readFile(filename, {encoding: 'utf8'}, function(err, data) {
         if(err) return reject(err);
+        data = frontmatter(data).body;
         mdtoc(data).json.forEach(function(tocEntry) {
           tocIndex.put(slugify(tocEntry.content), readme2index(filename, ".html"))
         });
@@ -145,7 +156,7 @@ new Promise(function(resolve, reject) {
 
   return Promise.all(fileContentsArray.map(function(fileContents, index) {
     return new Promise(function(resolve, reject) {
-      var filename = readme2index(meta.contents[index], ".html");
+      var filename = readme2index(meta.chapters[index], ".html");
       fs.writeFile(
         path.join(websiteDir, filename),
         wrapHTML(insertToC(fileContents, false), filename),
@@ -302,8 +313,8 @@ function wrapHTML(md, originalFilename) {
     opts.heading = "\n<nav class='site-nav'>\n" + 
       "<ul>\n" + 
       "<li>\n<a>\n" + "<img src='" + opts.favicon + "'>\n<strong>"+meta.title+"</strong>\n</a>\n</li>\n" + 
-      meta.contents.map(function(filename, i) {
-        return ((false && i==Math.round(meta.contents.length/2)) ? "</ul><ul>" : "") +
+      meta.chapters.map(function(filename, i) {
+        return ((false && i==Math.round(meta.chapters.length/2)) ? "</ul><ul>" : "") +
         template("<li>\n<a href='{{href}}' class='{{class}}'>{{title}}</a>\n</li>\n", {
           href: readme2index(filename, ".html"),
           title: readme2other(filename, "about").replace(/_/g, " ").toLowerCase(),

@@ -1,15 +1,27 @@
+---
+Title: Solutions for a Slow PC
+Version: 0.1
+Date: 2015-07-23
+Authors:
+  - notbryant <notbryant@gmail.com>
+Contributors:
+License: CC BY-NC-SA v4.0
+Copyright: 2015 Jon Petraglia
+Chapters:
+  - Readme
+  - Solutions
+  - Common Causes
+  - Optimizations
+  - Software Appendix
+  - Sharing
+---
+
 # Solutions for a Slow PC #
 
 ![Logo](logo.png)
 
-    Version: 0.1
-    Date: 2015-07-23
-    Author: notbryant <notbryant@gmail.com>
-    Contributors: N/A
-    Copyright: 2015 Jon Petraglia
 
-
-![Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
+![CC BY-NC-SA 4.0](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
 
 
 <!----------------------------------------------------------------------------->
